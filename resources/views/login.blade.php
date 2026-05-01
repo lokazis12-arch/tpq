@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Login - TPQ Darul Ikhlas</title>
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Tailwind Config -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container-lowest": "#ffffff",
+                        "primary": "#004d34",
+                        "on-tertiary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "primary-container": "#006747",
+                        "secondary-container": "#d1e7dd",
+                        "surface-container-highest": "#e0e3df",
+                        "outline-variant": "#bec9c1",
+                        "on-tertiary-fixed": "#161d1f",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#eef2ed",
+                        "surface-container-low": "#f1f5f0",
+                        "on-tertiary-fixed-variant": "#41484a",
+                        "tertiary-fixed": "#dde4e6",
+                        "on-primary-fixed": "#002114",
+                        "on-surface-variant": "#3f4943",
+                        "on-secondary-container": "#556961",
+                        "surface-dim": "#d7dbd6",
+                        "surface-variant": "#e0e3df",
+                        "error": "#ba1a1a",
+                        "inverse-primary": "#84d7af",
+                        "tertiary-fixed-dim": "#c1c8ca",
+                        "on-secondary-fixed-variant": "#374b44",
+                        "on-tertiary-container": "#ccd3d5",
+                        "primary-fixed-dim": "#84d7af",
+                        "background": "#f7faf5",
+                        "primary-fixed": "#a0f4ca",
+                        "on-secondary": "#ffffff",
+                        "secondary": "#4f635b",
+                        "tertiary-container": "#545b5d",
+                        "on-secondary-fixed": "#0c1f19",
+                        "on-background": "#181d1a",
+                        "on-primary-fixed-variant": "#005137",
+                        "on-surface": "#181d1a",
+                        "error-container": "#ffdad6",
+                        "tertiary": "#3d4446",
+                        "surface-bright": "#f7faf5",
+                        "surface": "#f7faf5",
+                        "surface-container": "#ebefea",
+                        "surface-container-high": "#e5e9e4",
+                        "outline": "#6f7a72",
+                        "inverse-surface": "#2d312e",
+                        "on-primary-container": "#8fe2ba",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed": "#d1e7dd",
+                        "surface-tint": "#0b6c4b",
+                        "secondary-fixed-dim": "#b6cbc2"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "md": "24px",
+                        "gutter": "16px",
+                        "margin": "24px",
+                        "base": "8px",
+                        "lg": "48px",
+                        "sm": "12px",
+                        "xs": "4px",
+                        "xl": "80px"
+                    },
+                    fontFamily: {
+                        "h1": ["Plus Jakarta Sans"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "body-sm": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "h2": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "h3": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"]
+                    },
+                    fontSize: {
+                        "h1": ["40px", { lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "label-md": ["14px", { lineHeight: "1.2", letterSpacing: "0.01em", fontWeight: "600" }],
+                        "body-sm": ["14px", { lineHeight: "1.5", fontWeight: "400" }],
+                        "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }],
+                        "h2": ["32px", { lineHeight: "1.3", letterSpacing: "-0.01em", fontWeight: "600" }],
+                        "body-md": ["16px", { lineHeight: "1.6", fontWeight: "400" }],
+                        "h3": ["24px", { lineHeight: "1.4", fontWeight: "600" }],
+                        "label-sm": ["12px", { lineHeight: "1.2", fontWeight: "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Minimalist Islamic Pattern Background for the form side */
+        .bg-pattern {
+            background-image: radial-gradient(var(--tw-colors-outline-variant) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased min-h-screen flex flex-col md:flex-row">
+    <!-- Left Hero Section (Hidden on Mobile) -->
+    <div class="hidden md:flex md:w-1/2 relative bg-primary items-center justify-center overflow-hidden hero-slide-in-left">
+        <!-- Hero Image -->
+        <img alt="" class="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-luminosity" data-alt="Serene interior of a modern Islamic architectural space with soft sunlight illuminating white marble columns and elegant geometric patterns, evoking a sense of peace and learning" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsuaWCcmJzZR8T6VOR-gZpmPaeCeQ5abe-Ls8EuQUsg2FS-BuiHOxPSVt7CvEHr1tj8Qky8WWq5WbBSRT8hmKCDA-gqNgHRPICCl5lxd4xS7FZmw0_PUDoLHIeJsM1ixvOSEAzyEUnBgnxGTcfVRY3P1oRdtdQAECRSRKfbPpsJfjwrmTh8xkyR-hFjFTHPwmoztDhsMl3O6O794Z-Lfl5MayTSqnXs1NVscY8E_2nvRt_1V_HO1u5M2XSSTPDgM9n7xF-P-bEFso"/>
+        <!-- Gradient Overlay -->
+        <div class="absolute inset-0 bg-gradient-to-tr from-primary/90 to-primary-container/80"></div>
+        <!-- Branding Content -->
+        <div class="relative z-10 flex flex-col items-center text-center px-xl max-w-2xl">
+            <div class="w-24 h-24 bg-surface-container-lowest/10 backdrop-blur-md rounded-2xl flex items-center justify-center mb-md border border-white/20">
+                <span class="material-symbols-outlined text-[48px] text-on-primary" style="font-variation-settings: 'FILL' 1;">mosque</span>
+            </div>
+            <h1 class="font-h1 text-h1 text-on-primary mb-sm">TPQ Darul Ikhlas</h1>
+            <p class="font-body-lg text-body-lg text-primary-fixed leading-relax">
+                Platform digital terpadu untuk memantau perkembangan hafalan, nilai, dan administrasi santri secara transparan dan aman.
+            </p>
+        </div>
+    </div>
+    <!-- Right Form Section -->
+    <div class="w-full md:w-1/2 min-h-screen flex items-center justify-center relative p-md">
+        <!-- Subtle Pattern Background -->
+        <div class="absolute inset-0 bg-pattern opacity-[0.15] pointer-events-none"></div>
+        <!-- Login Card -->
+        <div class="w-full max-w-[420px] bg-surface-container-lowest rounded-xl shadow-[0_8px_32px_rgba(0,77,52,0.06)] border border-outline-variant/30 p-lg relative z-10">
+            <!-- Mobile Header Logo (Hidden on Desktop) -->
+            <div class="md:hidden flex flex-col items-center mb-md">
+                <span class="material-symbols-outlined text-[40px] text-primary mb-xs" style="font-variation-settings: 'FILL' 1;">mosque</span>
+                <h1 class="font-h3 text-h3 text-primary">TPQ Darul Ikhlas</h1>
+            </div>
+            <!-- Header -->
+            <div class="text-center mb-lg">
+                <h2 class="font-h2 text-h2 text-on-surface mb-xs">Selamat Datang</h2>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">Silakan masuk untuk melanjutkan</p>
+            </div>
+            @if(session('error'))
+                <div class="mb-md p-sm bg-error-container rounded-lg border border-error/20 bounce-in">
+                    <p class="font-body-sm text-body-sm text-on-error-container">{{ session('error') }}</p>
+                </div>
+            @endif
+            <form action="{{ route('login') }}" method="POST" class="flex flex-col gap-md scroll-reveal">
+                @csrf
+                <!-- Role Selection -->
+                <div class="flex flex-col gap-xs">
+                    <label class="font-label-sm text-label-sm text-on-surface-variant">Masuk sebagai</label>
+                    <div class="flex p-xs bg-surface-container rounded-lg border border-outline-variant/40">
+                        <label class="flex-1 cursor-pointer">
+                            <input checked="" class="peer sr-only" name="role" type="radio" value="wali_santri"/>
+                            <div class="py-sm text-center font-label-md text-label-md rounded-md text-on-surface-variant peer-checked:bg-surface-container-lowest peer-checked:text-primary peer-checked:shadow-sm transition-all border border-transparent peer-checked:border-outline-variant/20">
+                                Wali Santri
+                            </div>
+                        </label>
+                        <label class="flex-1 cursor-pointer">
+                            <input class="peer sr-only" name="role" type="radio" value="guru"/>
+                            <div class="py-sm text-center font-label-md text-label-md rounded-md text-on-surface-variant peer-checked:bg-surface-container-lowest peer-checked:text-primary peer-checked:shadow-sm transition-all border border-transparent peer-checked:border-outline-variant/20">
+                                Guru
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                <!-- Email/Username Input -->
+                <div class="flex flex-col gap-xs">
+                    <label class="font-label-md text-label-md text-on-surface" for="identifier">Email atau Username</label>
+                    <div class="relative">
+                        <span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline text-[20px]">person</span>
+                        <input class="w-full pl-[40px] pr-sm py-sm rounded-lg border border-outline-variant bg-surface-container-lowest font-body-md text-body-md text-on-surface placeholder:text-outline/60 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors input-focus" id="identifier" name="email" placeholder="Masukkan ID Anda" type="text" value="{{ old('email') }}">
+                    </div>
+                    @error('email')
+                        <p class="font-label-sm text-label-sm text-error mt-xs">{{ $message }}</p>
+                    @enderror
+                </div>
+                <!-- Password Input -->
+                <div class="flex flex-col gap-xs">
+                    <div class="flex justify-between items-center">
+                        <label class="font-label-md text-label-md text-on-surface" for="password">Password</label>
+                        <a class="font-label-sm text-label-sm text-primary hover:text-primary-container transition-colors hover-scale" href="#">Lupa Password?</a>
+                    </div>
+                    <div class="relative">
+                        <span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline text-[20px]">lock</span>
+                        <input class="w-full pl-[40px] pr-[40px] py-sm rounded-lg border border-outline-variant bg-surface-container-lowest font-body-md text-body-md text-on-surface placeholder:text-outline/60 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" id="password" name="password" placeholder="••••••••" type="password">
+                        <button class="absolute right-sm top-1/2 -translate-y-1/2 text-outline hover:text-on-surface transition-colors flex items-center justify-center" type="button" onclick="togglePassword()">
+                            <span class="material-symbols-outlined text-[20px]" id="passwordToggleIcon">visibility_off</span>
+                        </button>
+                    </div>
+                    @error('password')
+                        <p class="font-label-sm text-label-sm text-error mt-xs">{{ $message }}</p>
+                    @enderror
+                </div>
+                <!-- Submit Button -->
+                <button class="w-full py-sm bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md rounded-lg shadow-sm transition-all duration-200 mt-sm flex items-center justify-center gap-xs button-press hover-lift hover-glow" type="submit">
+                    Masuk
+                    <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                </button>
+            </form>
+            <!-- Footer Note -->
+            <div class="mt-lg text-center border-t border-outline-variant/30 pt-md">
+                <p class="font-body-sm text-body-sm text-on-surface-variant">
+                    Belum memiliki akun? <br class="md:hidden"/> Hubungi pihak administrasi TPQ.
+                </p>
+            </div>
+        </div>
+    </div>
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.getElementById('passwordToggleIcon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.textContent = 'visibility';
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.textContent = 'visibility_off';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -83,7 +83,7 @@ export default function BayarClient({ students, recentPayments }: { students: an
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Nominal (Rp)</label>
-                <input type="number" name="amount" defaultValue={100000} required className="w-full px-4 py-3 border border-gray-200 text-slate-900 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none" />
+                <input type="number" name="amount" defaultValue={50000} required className="w-full px-4 py-3 border border-gray-200 text-slate-900 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none" />
               </div>
 
               <div className="pt-4">
@@ -109,8 +109,11 @@ export default function BayarClient({ students, recentPayments }: { students: an
           <div className="bg-gradient-to-br from-primary to-primary-container p-6 rounded-2xl text-white shadow-md relative overflow-hidden">
             <span className="material-symbols-outlined absolute right-[-20px] bottom-[-20px] text-[120px] opacity-10">payments</span>
             <h3 className="font-semibold text-emerald-50 mb-1">Iuran SPP Bulanan</h3>
-            <p className="text-3xl font-bold mb-2">Rp 100.000</p>
+            <p className="text-3xl font-bold mb-2">Rp 50.000</p>
             <p className="text-sm text-emerald-100 opacity-90">Per bulan / santri</p>
+            <div className="mt-3 pt-3 border-t border-white/20 text-xs text-emerald-100/80 font-medium">
+              Daftar Ulang: Rp 50.000 (1x setahun)
+            </div>
           </div>
 
           <div className="bg-white rounded-2xl p-6 shadow-sm border border-emerald-50">

@@ -113,7 +113,7 @@ export async function GET() {
       // Some paid, some unpaid
       const paidStatus = i % 5 === 0 ? 'Belum Bayar' : 'Lunas';
       const paymentDate = paidStatus === 'Lunas' ? new Date(currentYear, currentMonthIndex, 5 + (i % 20)) : null;
-      const amount = 100000;
+      const amount = 50000;
 
       await sql`
         INSERT INTO spp_payments (student_id, month, year, amount, payment_date, status)

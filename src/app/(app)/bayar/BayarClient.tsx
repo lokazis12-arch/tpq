@@ -66,6 +66,14 @@ export default function BayarClient({ students, recentPayments }: { students: an
                 </select>
               </div>
 
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Tipe Pembayaran</label>
+                <select name="payment_type" required className="w-full px-4 py-3 border border-gray-200 text-slate-900 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none bg-white">
+                  <option value="SPP">SPP Bulanan</option>
+                  <option value="Daftar Ulang">Daftar Ulang Tahunan</option>
+                </select>
+              </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Bulan</label>
@@ -130,7 +138,7 @@ export default function BayarClient({ students, recentPayments }: { students: an
                   <div key={payment.id} className="flex justify-between items-center border-b border-gray-50 pb-3 last:border-0 last:pb-0">
                     <div>
                       <p className="font-medium text-sm text-gray-900">{payment.student_name}</p>
-                      <p className="text-xs text-secondary">{payment.month} {payment.year}</p>
+                      <p className="text-xs text-secondary">{payment.month} {payment.year} • <span className="font-semibold text-primary">{payment.payment_type || 'SPP'}</span></p>
                     </div>
                     <div className="text-right">
                       <p className="text-sm font-semibold text-primary">{formatRupiah(payment.amount)}</p>

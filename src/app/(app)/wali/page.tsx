@@ -220,7 +220,10 @@ export default async function WaliDashboard() {
                       </span>
                     </div>
                     <div>
-                      <p className="font-semibold text-slate-900">{payment.month} {payment.year}</p>
+                      <p className="font-semibold text-slate-900">
+                        {payment.month} {payment.year}
+                        {payment.payment_type && payment.payment_type !== 'SPP' ? ` - ${payment.payment_type}` : ''}
+                      </p>
                       <p className="text-xs text-secondary">
                         {payment.payment_date ? formatDate(payment.payment_date) : '-'}
                       </p>

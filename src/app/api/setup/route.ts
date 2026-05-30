@@ -50,9 +50,16 @@ export async function GET() {
         amount DECIMAL(10, 2) DEFAULT 0,
         payment_date TIMESTAMP,
         status VARCHAR(20) DEFAULT 'Belum Bayar',
+        payment_type VARCHAR(50) DEFAULT 'SPP',
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `;
+
+    try {
+      await sql`ALTER TABLE spp_payments ADD COLUMN payment_type VARCHAR(50) DEFAULT 'SPP';`;
+    } catch (e) {
+      // Column might already exist, ignore
+    }
 
     // Create Progress Iqro/Quran table
     await sql`

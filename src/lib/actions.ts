@@ -266,24 +266,26 @@ export async function recordPayment(formData: FormData) {
   const month = formData.get('month') as string;
   const year = parseInt(formData.get('year') as string);
   const amount = parseInt(formData.get('amount') as string);
+  const paymentType = (formData.get('payment_type') as string) || 'SPP';
 
   if (!studentId || !month || !year || !amount) return { error: 'Data tidak lengkap.' };
 
   try {
     // Check if payment already exists
     const existing = await sql`
-      SELECT id FROM spp_payments WHERE student_id = ${studentId} AND month = ${month} AND year = ${year}
+      SELECT id FROM spp_payments 
+      WHERE student_id = ${studentId} AND month = ${month} AND year = ${year} AND payment_type = ${paymentType}
     `;
 
     if (existing.rows.length > 0) {
       await sql`
         UPDATE spp_payments SET amount = ${amount}, status = 'Lunas', payment_date = NOW()
-        WHERE student_id = ${studentId} AND month = ${month} AND year = ${year}
+        WHERE student_id = ${studentId} AND month = ${month} AND year = ${year} AND payment_type = ${paymentType}
       `;
     } else {
       await sql`
-        INSERT INTO spp_payments (student_id, month, year, amount, payment_date, status)
-        VALUES (${studentId}, ${month}, ${year}, ${amount}, NOW(), 'Lunas')
+        INSERT INTO spp_payments (student_id, month, year, amount, payment_date, status, payment_type)
+        VALUES (${studentId}, ${month}, ${year}, ${amount}, NOW(), 'Lunas', ${paymentType})
       `;
     }
 

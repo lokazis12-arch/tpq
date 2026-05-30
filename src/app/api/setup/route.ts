@@ -11,9 +11,19 @@ export async function GET() {
         email VARCHAR(255) UNIQUE NOT NULL,
         password VARCHAR(255) NOT NULL,
         role VARCHAR(50) DEFAULT 'guru',
+        phone VARCHAR(20),
+        avatar_url VARCHAR(255),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `;
+
+    // Try altering users to add phone/avatar_url if table already existed
+    try {
+      await sql`ALTER TABLE users ADD COLUMN phone VARCHAR(20);`;
+    } catch (e) {}
+    try {
+      await sql`ALTER TABLE users ADD COLUMN avatar_url VARCHAR(255);`;
+    } catch (e) {}
 
     // Create Students table (with wali_santri_id linked to users)
     await sql`
@@ -80,6 +90,18 @@ export async function GET() {
         student_id INTEGER REFERENCES students(id) ON DELETE CASCADE,
         category VARCHAR(50) NOT NULL,
         item_name VARCHAR(100) NOT NULL,
+        status VARCHAR(50) NOT NULL,
+        notes TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `;
+
+    // Create Progress Hafalan Juz 30 table
+    await sql`
+      CREATE TABLE IF NOT EXISTS progress_hafalan (
+        id SERIAL PRIMARY KEY,
+        student_id INTEGER REFERENCES students(id) ON DELETE CASCADE,
+        surah_name VARCHAR(100) NOT NULL,
         status VARCHAR(50) NOT NULL,
         notes TEXT,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

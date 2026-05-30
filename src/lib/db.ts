@@ -8,6 +8,33 @@ async function getSqliteDb() {
     const dbPath = path.join(process.cwd(), 'tpq.sqlite');
     sqliteDb = new Database(dbPath);
     sqliteDb.pragma('foreign_keys = ON');
+
+    // Auto-migrations for SQLite
+    try {
+      const tableInfo = sqliteDb.prepare("PRAGMA table_info(users)").all();
+      const hasPhone = tableInfo.some((col: any) => col.name === 'phone');
+      if (!hasPhone) {
+        sqliteDb.exec("ALTER TABLE users ADD COLUMN phone TEXT;");
+      }
+      const hasAvatar = tableInfo.some((col: any) => col.name === 'avatar_url');
+      if (!hasAvatar) {
+        sqliteDb.exec("ALTER TABLE users ADD COLUMN avatar_url TEXT;");
+      }
+
+      // Create progress_hafalan table if not exists
+      sqliteDb.exec(`
+        CREATE TABLE IF NOT EXISTS progress_hafalan (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          student_id INTEGER REFERENCES students(id) ON DELETE CASCADE,
+          surah_name TEXT NOT NULL,
+          status TEXT NOT NULL,
+          notes TEXT,
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        );
+      `);
+    } catch (e) {
+      console.error('SQLite migration error:', e);
+    }
   }
   return sqliteDb;
 }

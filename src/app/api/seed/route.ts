@@ -23,7 +23,7 @@ const santriList = [
   { name: 'Haekal', class: 'Iqra 3', address: 'GTS', phone: '' },
   { name: 'Hafis Ibnu Hasan', class: 'Iqra 4', address: 'KBS', phone: '' },
   { name: 'Muh.Harith Arsya', class: 'Iqra 5', address: 'GTS', phone: '081234567801' },
-  { name: 'M.Khidir Ali Muslim', class: 'IQRO', address: 'KBS', phone: '081234567802' },
+  { name: 'M.Khidir Ali Muslim', class: 'IQRO', address: 'KBS', phone: '' },
   { name: 'Kinara Kayla Putri', class: "Al-Qur'an", address: 'KBS', phone: '' },
   { name: 'Julian Arzuyan Depita', class: "Iqra' 3", address: 'KBS', phone: '' },
   { name: 'Kasih Anzu Arizki', class: "Iqra' 5", address: 'KBS', phone: '' },
@@ -48,8 +48,41 @@ const santriList = [
   { name: 'M.Gibran Algifari', class: 'IQRO', address: 'KBS', phone: '081234567808' },
   { name: 'Zhafran Shidqi Al Hasan', class: 'IQRO 2', address: 'GTS', phone: '081234567809' },
   { name: 'Athaar Abrisam Rahman', class: 'IQRO', address: 'GTS', phone: '081234567810' },
-  { name: 'Alma salman', class: 'IQRO', address: 'GTS', phone: '' },
+  { name: 'Alma Rohmah', class: 'IQRO', address: 'GTS', phone: '' },
   { name: 'KAKAK RAISA', class: 'IQRO', address: 'GTS', phone: '' },
+];
+
+const siblingGroups = [
+  {
+    parentEmail: 'adreenakeysha@tpq.com',
+    parentName: 'Bpk/Ibu Adreena',
+    studentNames: ['Adreena Keysha', 'Muh.Harith Arsya']
+  },
+  {
+    parentEmail: 'almarohmah@tpq.com',
+    parentName: 'Bpk/Ibu Alma',
+    studentNames: ['Alma Rohmah', 'M Ali Sandi']
+  },
+  {
+    parentEmail: 'azkaaulia@tpq.com',
+    parentName: 'Bpk/Ibu Azka',
+    studentNames: ['Azka Aulia', 'Sandi Walidaen']
+  },
+  {
+    parentEmail: 'dzakarafasya@tpq.com',
+    parentName: 'Bpk/Ibu Dzaka',
+    studentNames: ['M. Dzaka Raffasya', 'M. Abizar Raffhizi']
+  },
+  {
+    parentEmail: 'sopianhamdi@tpq.com',
+    parentName: 'Bpk/Ibu Sopian',
+    studentNames: ['Sopian Hamdi', 'Kasih Anzu Arizki', 'Julian Arzuyan Depita']
+  },
+  {
+    parentEmail: 'mkhidiralimuslim@tpq.com',
+    parentName: 'Bpk/Ibu M.Khidir',
+    studentNames: ['Fatih Ali Muslim', 'M.Khidir Ali Muslim']
+  }
 ];
 
 export async function GET() {
@@ -59,10 +92,11 @@ export async function GET() {
     await sql`DELETE FROM attendance;`;
     await sql`DELETE FROM progress_iqro_quran;`;
     await sql`DELETE FROM progress_sholat;`;
+    await sql`DELETE FROM progress_hafalan;`;
     await sql`DELETE FROM students;`;
     await sql`DELETE FROM users;`;
     try {
-      await sql`DELETE FROM sqlite_sequence WHERE name IN ('spp_payments', 'attendance', 'progress_iqro_quran', 'progress_sholat', 'students', 'users');`;
+      await sql`DELETE FROM sqlite_sequence WHERE name IN ('spp_payments', 'attendance', 'progress_iqro_quran', 'progress_sholat', 'progress_hafalan', 'students', 'users');`;
     } catch (e) {
       // sqlite_sequence might not exist if tables were never created with AUTOINCREMENT, ignore
     }
@@ -73,34 +107,53 @@ export async function GET() {
       VALUES ('Ustaz Azis', 'azis@gmail.com', 'password123', 'guru');
     `;
 
-    const addedStudents = [];
+    const studentWaliMap: Record<string, number> = {};
 
-    // 2. Seed Wali Santri and Students
-    for (const santri of santriList) {
-      const username = santri.name.toLowerCase().replace(/[^a-z]/g, '');
-      const email = `${username}@tpq.com`;
-      const password = 'password123';
-      const parentName = 'Bpk/Ibu ' + santri.name.split(' ')[0];
-
-      // Insert Wali Santri user
+    // 2. Pre-create Wali accounts for groups
+    for (const group of siblingGroups) {
       const userResult = await sql`
-        INSERT INTO users (name, email, password, role)
-        VALUES (${santri.name}, ${email}, ${password}, 'wali_santri')
+        INSERT INTO users (name, email, password, role, phone)
+        VALUES (${group.parentName}, ${group.parentEmail}, 'password123', 'wali_santri', '081234567890')
         RETURNING id;
       `;
-      const waliSantriId = userResult.rows[0].id;
+      const waliId = userResult.rows[0].id;
+      for (const sName of group.studentNames) {
+        studentWaliMap[sName.toLowerCase()] = waliId;
+      }
+    }
+
+    const addedStudents = [];
+
+    // 3. Seed Students
+    for (const santri of santriList) {
+      const sNameLower = santri.name.toLowerCase();
+      let waliId = studentWaliMap[sNameLower];
+
+      if (!waliId) {
+        const username = santri.name.toLowerCase().replace(/[^a-z]/g, '');
+        const email = `${username}@tpq.com`;
+        const parentName = 'Bpk/Ibu ' + santri.name.split(' ')[0];
+
+        const userResult = await sql`
+          INSERT INTO users (name, email, password, role, phone)
+          VALUES (${parentName}, ${email}, 'password123', 'wali_santri', ${santri.phone || '081234567890'})
+          RETURNING id;
+        `;
+        waliId = userResult.rows[0].id;
+      }
 
       // Insert Student record linked to Wali Santri
+      const parentName = santri.name.startsWith('M.Khidir') ? 'Bpk/Ibu M.Khidir' : ('Bpk/Ibu ' + santri.name.split(' ')[0]);
       const studentResult = await sql`
         INSERT INTO students (wali_santri_id, name, class, address, parent_name, phone)
-        VALUES (${waliSantriId}, ${santri.name}, ${santri.class}, ${santri.address}, ${parentName}, ${santri.phone})
+        VALUES (${waliId}, ${santri.name}, ${santri.class}, ${santri.address}, ${parentName}, ${santri.phone})
         RETURNING id, name, class;
       `;
       
       addedStudents.push(studentResult.rows[0]);
     }
 
-    // 3. Seed some Mock Payments, Attendance, and Progress for a few students to make dashboard look populated
+    // 4. Seed SPP, Attendance, and Progress
     const today = new Date();
     const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
     const currentMonthIndex = today.getMonth();
@@ -110,9 +163,7 @@ export async function GET() {
       const student = addedStudents[i];
 
       // A. Seed SPP & Daftar Ulang payments
-      // The user requested: all paid re-registration (Daftar Ulang), and monthly SPP is paid for all EXCEPT:
-      // zakwan, alma salman, ali sandi, hafis, Toyyibburahman Arif
-      const unpaidNames = ['zakwan', 'alma salman', 'ali sandi', 'hafis', 'toyyibburahman arif'];
+      const unpaidNames = ['zakwan', 'alma rohmah', 'ali sandi', 'hafis', 'toyyibburahman arif'];
       const isUnpaid = unpaidNames.some(unpaidName => 
         student.name.toLowerCase().includes(unpaidName)
       );
@@ -126,20 +177,18 @@ export async function GET() {
         VALUES (${student.id}, ${months[currentMonthIndex]}, ${currentYear}, ${amount}, ${paymentDate}, ${paidStatus}, 'SPP');
       `;
 
-      // Insert Daftar Ulang payment record (all students are Lunas!)
+      // Insert Daftar Ulang payment record
       const duPaymentDate = new Date(currentYear, currentMonthIndex, 1);
       await sql`
         INSERT INTO spp_payments (student_id, month, year, amount, payment_date, status, payment_type)
         VALUES (${student.id}, ${months[currentMonthIndex]}, ${currentYear}, 50000, ${duPaymentDate}, 'Lunas', 'Daftar Ulang');
       `;
 
-      // B. Seed some mock attendance
-      // Last 5 days
+      // B. Seed mock attendance
       for (let dayOffset = 0; dayOffset < 5; dayOffset++) {
         const date = new Date();
         date.setDate(today.getDate() - dayOffset);
         
-        // Randomize status
         let status = 'Hadir';
         if (i % 12 === 0 && dayOffset === 1) status = 'Izin';
         else if (i % 15 === 0 && dayOffset === 2) status = 'Sakit';
@@ -155,7 +204,7 @@ export async function GET() {
       const pageNum = 1 + (i % 20);
       await sql`
         INSERT INTO progress_iqro_quran (student_id, level, page_surah, notes)
-        VALUES (${student.id}, ${student.class}, ${'Halaman ' + pageNum}, 'Alhamdulillah membacanya cukup lancar.');
+        VALUES (${student.id}, ${student.class || 'Iqra 1'}, ${'Halaman ' + pageNum}, 'Alhamdulillah membacanya cukup lancar.');
       `;
 
       // D. Seed mock progress (Sholat)
@@ -165,15 +214,25 @@ export async function GET() {
           (${student.id}, 'Gerakan & Bacaan', 'Takbiratul Ihram', 'SEMPURNA', 'Gerakan tangan sudah lurus dan takbir terdengar jelas.'),
           (${student.id}, 'Azan & Persiapan', 'Doa Sebelum Azan', 'LANCAR', 'Mulai hafal, perlu sedikit bimbingan pada tajwid.');
       `;
+
+      // E. Seed mock progress (Hafalan Juz 30)
+      await sql`
+        INSERT INTO progress_hafalan (student_id, surah_name, status, notes)
+        VALUES 
+          (${student.id}, 'An-Nas', 'SEMPURNA', 'Lancar, tajwid baik.'),
+          (${student.id}, 'Al-Falaq', 'SEMPURNA', 'Bagus pelafalannya.'),
+          (${student.id}, 'Al-Ikhlas', 'SEMPURNA', 'Hafal lancar.'),
+          (${student.id}, 'Al-Lahab', 'LANCAR', 'Perlu diperhatikan panjang pendeknya.'),
+          (${student.id}, 'An-Nasr', 'BELUM LANCAR', 'Masih terbata-bata di ayat terakhir.');
+      `;
     }
 
     return NextResponse.json({ 
       message: 'Seed data inserted successfully', 
-      users_count: santriList.length + 1,
+      users_count: addedStudents.length + 1,
       students_count: addedStudents.length
     });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
-

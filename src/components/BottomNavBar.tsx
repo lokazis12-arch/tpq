@@ -16,7 +16,10 @@ const BottomNavBar = ({ role = 'guru' }: { role?: string }) => {
   ];
 
   const waliNavItems = [
-    { label: 'Dashboard', icon: 'dashboard', href: '/wali' },
+    { label: 'Beranda', icon: 'home', href: '/wali' },
+    { label: 'Laporan', icon: 'description', href: '/wali/laporan' },
+    { label: 'Presensi', icon: 'calendar_month', href: '/wali/presensi' },
+    { label: 'Profil', icon: 'person', href: '/wali/profil' },
   ];
 
   const navItems = role === 'guru' ? guruNavItems : waliNavItems;

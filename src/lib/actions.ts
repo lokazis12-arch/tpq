@@ -4,6 +4,9 @@ import { sql } from './db';
 import { revalidatePath } from 'next/cache';
 import { createSession, destroySession } from './auth';
 import { redirect } from 'next/navigation';
+import { cookies } from 'next/headers';
+import fs from 'fs';
+import path from 'path';
 
 // ─── AUTH ACTIONS ────────────────────────────────────────────────
 
@@ -426,17 +429,38 @@ export async function saveProgressSholat(formData: FormData) {
 
 // ─── WALI SANTRI ACTIONS ────────────────────────────────────────
 
-export async function getWaliDashboard(userId: number) {
+export async function getWaliDashboard(userId: number, studentId?: number) {
   try {
-    // Get the student(s) linked to this wali
-    const students = await sql`
+    // Get all student(s) linked to this wali
+    const studentsResult = await sql`
       SELECT * FROM students WHERE wali_santri_id = ${userId}
     `;
+    const students = studentsResult.rows;
 
-    if (students.rows.length === 0) return null;
+    if (students.length === 0) return null;
 
-    const student = students.rows[0];
-    const studentId = student.id;
+    // Fetch parent profile info
+    const parentResult = await sql`
+      SELECT id, name, email, phone, avatar_url FROM users WHERE id = ${userId}
+    `;
+    const parent = parentResult.rows[0] || null;
+
+    // Determine which student is selected
+    let selectedStudent = students[0];
+    if (studentId) {
+      const match = students.find((s: any) => s.id === studentId);
+      if (match) selectedStudent = match;
+    } else {
+      const cookieStore = await cookies();
+      const cookieVal = cookieStore.get('selected_student_id')?.value;
+      if (cookieVal) {
+        const parsedId = parseInt(cookieVal);
+        const match = students.find((s: any) => s.id === parsedId);
+        if (match) selectedStudent = match;
+      }
+    }
+
+    const currentStudentId = selectedStudent.id;
 
     // Get attendance summary (last 30 days)
     const thirtyDaysAgo = new Date();
@@ -445,45 +469,191 @@ export async function getWaliDashboard(userId: number) {
 
     const attendance = await sql`
       SELECT status, COUNT(*) as count FROM attendance 
-      WHERE student_id = ${studentId} AND date >= ${dateString}
+      WHERE student_id = ${currentStudentId} AND date >= ${dateString}
       GROUP BY status
     `;
 
     // Get latest SPP payment
     const payment = await sql`
-      SELECT * FROM spp_payments WHERE student_id = ${studentId}
+      SELECT * FROM spp_payments WHERE student_id = ${currentStudentId}
       ORDER BY year DESC, created_at DESC LIMIT 3
     `;
 
     // Get iqro progress
     const iqro = await sql`
-      SELECT * FROM progress_iqro_quran WHERE student_id = ${studentId}
+      SELECT * FROM progress_iqro_quran WHERE student_id = ${currentStudentId}
       ORDER BY created_at DESC LIMIT 1
     `;
 
     // Get sholat progress
     const sholat = await sql`
-      SELECT * FROM progress_sholat WHERE student_id = ${studentId}
+      SELECT * FROM progress_sholat WHERE student_id = ${currentStudentId}
       ORDER BY created_at DESC
     `;
 
     // Get recent attendance
     const recentAttendance = await sql`
-      SELECT * FROM attendance WHERE student_id = ${studentId}
+      SELECT * FROM attendance WHERE student_id = ${currentStudentId}
       ORDER BY date DESC LIMIT 10
     `;
 
+    // Get hafalan progress
+    const hafalan = await sql`
+      SELECT * FROM progress_hafalan WHERE student_id = ${currentStudentId}
+      ORDER BY created_at DESC
+    `;
+
     return {
-      student: student,
+      student: selectedStudent,
+      students: students,
+      parent: parent,
       attendanceSummary: attendance.rows,
       payments: payment.rows,
       iqroProgress: iqro.rows[0] || null,
       sholatProgress: sholat.rows,
       recentAttendance: recentAttendance.rows,
+      hafalanProgress: hafalan.rows,
     };
   } catch (error) {
     console.error('Error fetching wali dashboard:', error);
     return null;
+  }
+}
+
+export async function selectStudentAction(studentId: number) {
+  const cookieStore = await cookies();
+  cookieStore.set('selected_student_id', studentId.toString(), {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    path: '/',
+    maxAge: 60 * 60 * 24 * 30, // 30 days
+  });
+  revalidatePath('/wali');
+  revalidatePath('/wali/laporan');
+  revalidatePath('/wali/presensi');
+  revalidatePath('/wali/profil');
+  return { success: true };
+}
+
+export async function saveProgressHafalan(formData: FormData) {
+  const studentId = parseInt(formData.get('student_id') as string);
+  const surahName = formData.get('surah_name') as string;
+  const status = formData.get('status') as string;
+  const notes = formData.get('notes') as string;
+
+  if (!studentId || !surahName || !status) return { error: 'Data tidak lengkap.' };
+
+  try {
+    const existing = await sql`
+      SELECT id FROM progress_hafalan WHERE student_id = ${studentId} AND surah_name = ${surahName}
+    `;
+
+    if (existing.rows.length > 0) {
+      await sql`
+        UPDATE progress_hafalan SET status = ${status}, notes = ${notes}, created_at = CURRENT_TIMESTAMP
+        WHERE student_id = ${studentId} AND surah_name = ${surahName}
+      `;
+    } else {
+      await sql`
+        INSERT INTO progress_hafalan (student_id, surah_name, status, notes)
+        VALUES (${studentId}, ${surahName}, ${status}, ${notes})
+      `;
+    }
+    revalidatePath('/progres');
+    revalidatePath('/wali');
+    return { success: true };
+  } catch (error: any) {
+    console.error('Error saving hafalan progress:', error);
+    return { error: error.message || 'Gagal menyimpan progres hafalan.' };
+  }
+}
+
+export async function updateWaliProfile(formData: FormData, userId: number) {
+  const name = formData.get('name') as string;
+  const phone = formData.get('phone') as string;
+  const currentPassword = formData.get('current_password') as string;
+  const newPassword = formData.get('new_password') as string;
+  const confirmPassword = formData.get('confirm_password') as string;
+
+  if (!name) return { error: 'Nama harus diisi.' };
+
+  try {
+    const userResult = await sql`
+      SELECT password FROM users WHERE id = ${userId}
+    `;
+    const user = userResult.rows[0];
+
+    if (currentPassword || newPassword || confirmPassword) {
+      if (!currentPassword || !newPassword || !confirmPassword) {
+        return { error: 'Semua field password harus diisi untuk mengubah password.' };
+      }
+      if (user.password !== currentPassword) {
+        return { error: 'Password saat ini salah.' };
+      }
+      if (newPassword.length < 8) {
+        return { error: 'Password baru minimal 8 karakter.' };
+      }
+      if (newPassword !== confirmPassword) {
+        return { error: 'Konfirmasi password baru tidak cocok.' };
+      }
+
+      await sql`
+        UPDATE users SET name = ${name}, phone = ${phone}, password = ${newPassword} WHERE id = ${userId}
+      `;
+    } else {
+      await sql`
+        UPDATE users SET name = ${name}, phone = ${phone} WHERE id = ${userId}
+      `;
+    }
+
+    revalidatePath('/wali/profil');
+    revalidatePath('/wali');
+    return { success: true };
+  } catch (error: any) {
+    console.error('Error updating profile:', error);
+    return { error: error.message || 'Gagal memperbarui profil.' };
+  }
+}
+
+export async function uploadAvatarAction(formData: FormData, userId: number) {
+  const file = formData.get('avatar') as any;
+  if (!file || file.size === 0) return { error: 'File tidak ditemukan.' };
+
+  const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/jpg'];
+  if (!validTypes.includes(file.type)) {
+    return { error: 'Format file tidak didukung. Gunakan JPG, GIF, atau PNG.' };
+  }
+
+  if (file.size > 2 * 1024 * 1024) {
+    return { error: 'Ukuran file melebihi batas 2MB.' };
+  }
+
+  try {
+    const bytes = await file.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+
+    const uploadDir = path.join(process.cwd(), 'public', 'uploads');
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+
+    const filename = `avatar_${userId}_${Date.now()}${path.extname(file.name)}`;
+    const filePath = path.join(uploadDir, filename);
+
+    fs.writeFileSync(filePath, buffer);
+    const avatarUrl = `/uploads/${filename}`;
+
+    await sql`
+      UPDATE users SET avatar_url = ${avatarUrl} WHERE id = ${userId}
+    `;
+
+    revalidatePath('/wali/profil');
+    revalidatePath('/wali');
+    return { success: true, avatarUrl };
+  } catch (error: any) {
+    console.error('Error uploading avatar:', error);
+    return { error: 'Gagal mengunggah foto profil.' };
   }
 }
 
@@ -550,6 +720,32 @@ export async function getPaymentStatusReport(month: string, year: number, paymen
     return report;
   } catch (error) {
     console.error('Error generating payment report:', error);
+    return [];
+  }
+}
+
+export async function getProgressHafalan(studentId?: number) {
+  try {
+    let result;
+    if (studentId) {
+      result = await sql`
+        SELECT p.*, s.name as student_name, s.class as student_class
+        FROM progress_hafalan p
+        JOIN students s ON p.student_id = s.id
+        WHERE p.student_id = ${studentId}
+        ORDER BY p.created_at DESC
+      `;
+    } else {
+      result = await sql`
+        SELECT p.*, s.name as student_name, s.class as student_class
+        FROM progress_hafalan p
+        JOIN students s ON p.student_id = s.id
+        ORDER BY p.created_at DESC
+      `;
+    }
+    return result.rows;
+  } catch (error) {
+    console.error('Error fetching hafalan progress:', error);
     return [];
   }
 }

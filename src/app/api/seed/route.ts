@@ -109,15 +109,28 @@ export async function GET() {
     for (let i = 0; i < addedStudents.length; i++) {
       const student = addedStudents[i];
 
-      // A. Seed SPP payments
-      // Some paid, some unpaid
-      const paidStatus = i % 5 === 0 ? 'Belum Bayar' : 'Lunas';
+      // A. Seed SPP & Daftar Ulang payments
+      // The user requested: all paid re-registration (Daftar Ulang), and monthly SPP is paid for all EXCEPT:
+      // zakwan, alma salman, ali sandi, hafis, Toyyibburahman Arif
+      const unpaidNames = ['zakwan', 'alma salman', 'ali sandi', 'hafis', 'toyyibburahman arif'];
+      const isUnpaid = unpaidNames.some(unpaidName => 
+        student.name.toLowerCase().includes(unpaidName)
+      );
+      const paidStatus = isUnpaid ? 'Belum Bayar' : 'Lunas';
       const paymentDate = paidStatus === 'Lunas' ? new Date(currentYear, currentMonthIndex, 5 + (i % 20)) : null;
       const amount = 50000;
 
+      // Insert SPP payment record
       await sql`
-        INSERT INTO spp_payments (student_id, month, year, amount, payment_date, status)
-        VALUES (${student.id}, ${months[currentMonthIndex]}, ${currentYear}, ${amount}, ${paymentDate}, ${paidStatus});
+        INSERT INTO spp_payments (student_id, month, year, amount, payment_date, status, payment_type)
+        VALUES (${student.id}, ${months[currentMonthIndex]}, ${currentYear}, ${amount}, ${paymentDate}, ${paidStatus}, 'SPP');
+      `;
+
+      // Insert Daftar Ulang payment record (all students are Lunas!)
+      const duPaymentDate = new Date(currentYear, currentMonthIndex, 1);
+      await sql`
+        INSERT INTO spp_payments (student_id, month, year, amount, payment_date, status, payment_type)
+        VALUES (${student.id}, ${months[currentMonthIndex]}, ${currentYear}, 50000, ${duPaymentDate}, 'Lunas', 'Daftar Ulang');
       `;
 
       // B. Seed some mock attendance

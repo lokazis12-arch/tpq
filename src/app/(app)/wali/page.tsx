@@ -181,6 +181,7 @@ export default async function WaliDashboard() {
         </div>
       </div>
 
+      {/* Grid Row 1: Hafalan Juz 30 & Progres Mengaji */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Hafalan Juz 30 Summary Card */}
         <div className="bg-white rounded-2xl p-6 shadow-sm border border-emerald-50 flex flex-col justify-between">
@@ -196,7 +197,6 @@ export default async function WaliDashboard() {
             </div>
 
             <div className="space-y-4">
-              {/* Progress bar */}
               <div>
                 <div className="flex justify-between text-xs text-secondary mb-1">
                   <span>Progres Hafalan</span>
@@ -210,7 +210,6 @@ export default async function WaliDashboard() {
                 </div>
               </div>
 
-              {/* Latest hafalan logs */}
               <div>
                 <h4 className="text-xs font-semibold text-slate-800 uppercase tracking-wider mb-2">Riwayat Hafalan Terbaru</h4>
                 {hafalanProgress.length > 0 ? (
@@ -293,8 +292,58 @@ export default async function WaliDashboard() {
         </div>
       </div>
 
+      {/* Grid Row 2: Penilaian Sholat & Kehadiran */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Absensi Summary */}
+        {/* Penilaian Sholat & Doa Card */}
+        <div className="bg-white rounded-2xl p-6 shadow-sm border border-emerald-50 flex flex-col justify-between">
+          <div>
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
+                <span className="material-symbols-outlined text-primary">man_4</span>
+                Penilaian Sholat & Doa
+              </h3>
+            </div>
+            
+            <div className="space-y-3">
+              {sholatProgress.length > 0 ? (
+                sholatProgress.slice(0, 3).map((item: any, idx: number) => (
+                  <div key={idx} className="p-3 bg-slate-50 border border-slate-100 rounded-xl space-y-1">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <p className="text-[10px] text-slate-400 font-semibold uppercase">{item.category}</p>
+                        <p className="text-sm font-bold text-slate-800 mt-0.5">{item.item_name}</p>
+                      </div>
+                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold shrink-0 ${
+                        item.status === 'SEMPURNA' ? 'bg-emerald-100 text-primary' :
+                        item.status === 'LANCAR' ? 'bg-blue-100 text-blue-700' :
+                        'bg-amber-100 text-amber-700'
+                      }`}>
+                        {item.status}
+                      </span>
+                    </div>
+                    {item.notes && <p className="text-xs text-secondary italic mt-1 text-slate-500">"{item.notes}"</p>}
+                  </div>
+                ))
+              ) : (
+                <p className="text-xs text-secondary text-center py-8 bg-slate-50 rounded-xl border border-slate-100">
+                  Belum ada catatan penilaian sholat & doa.
+                </p>
+              )}
+            </div>
+          </div>
+          
+          <div className="pt-4 border-t border-slate-50 mt-4">
+            <Link 
+              href="/wali/laporan" 
+              className="flex items-center justify-center gap-1.5 w-full text-center py-2.5 bg-primary-container text-on-primary-container font-semibold rounded-xl text-sm hover:bg-primary-container/80 transition-colors"
+            >
+              <span className="material-symbols-outlined text-[16px]">visibility</span>
+              Lihat Detail Sholat & Doa
+            </Link>
+          </div>
+        </div>
+
+        {/* Kehadiran (Absensi) Card */}
         <div className="bg-white rounded-2xl p-6 shadow-sm border border-emerald-50 flex flex-col justify-between">
           <div>
             <div className="flex justify-between items-center mb-4">
@@ -355,16 +404,18 @@ export default async function WaliDashboard() {
             </Link>
           </div>
         </div>
+      </div>
 
-        {/* SPP Payments */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-emerald-50">
+      {/* Grid Row 3: SPP Payments Card (Full Width on Desktop) */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="bg-white rounded-2xl p-6 shadow-sm border border-emerald-50 md:col-span-2">
           <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2 mb-4">
             <span className="material-symbols-outlined text-primary">payments</span>
             Administrasi SPP (3 Bulan Terakhir)
           </h3>
           
           {payments.length > 0 ? (
-            <div className="space-y-3">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {payments.map((payment: any) => (
                 <div key={payment.id} className="flex justify-between items-center p-4 border border-gray-100 rounded-xl bg-surface-container-low/50">
                   <div className="flex items-center gap-3">
@@ -376,18 +427,17 @@ export default async function WaliDashboard() {
                       </span>
                     </div>
                     <div>
-                      <p className="font-semibold text-slate-900">
+                      <p className="font-semibold text-slate-900 text-sm">
                         {payment.month} {payment.year}
-                        {payment.payment_type && payment.payment_type !== 'SPP' ? ` - ${payment.payment_type}` : ''}
                       </p>
-                      <p className="text-xs text-secondary">
-                        {payment.payment_date ? formatDate(payment.payment_date) : '-'}
+                      <p className="text-[10px] text-secondary">
+                        {payment.payment_type && payment.payment_type !== 'SPP' ? payment.payment_type : 'SPP Bulanan'}
                       </p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="font-bold text-gray-900">{formatRupiah(payment.amount)}</p>
-                    <p className={`text-xs font-bold mt-0.5 ${
+                    <p className="font-bold text-gray-900 text-sm">{formatRupiah(payment.amount)}</p>
+                    <p className={`text-[10px] font-bold mt-0.5 ${
                       payment.status === 'Lunas' ? 'text-primary' : 'text-error'
                     }`}>
                       {payment.status.toUpperCase()}

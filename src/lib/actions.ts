@@ -509,3 +509,47 @@ export async function getAttendanceSummaryToday() {
     return [];
   }
 }
+
+export async function getPaymentStatusReport(month: string, year: number, paymentType: string) {
+  try {
+    const studentsResult = await sql`SELECT id, name, class FROM students ORDER BY name ASC`;
+    const students = studentsResult.rows;
+
+    let paymentsResult;
+    if (paymentType === 'Daftar Ulang') {
+      // Check if they paid at all during the selected year
+      paymentsResult = await sql`
+        SELECT student_id, amount, payment_date, status, month
+        FROM spp_payments 
+        WHERE year = ${year} AND payment_type = 'Daftar Ulang' AND status = 'Lunas'
+      `;
+    } else {
+      // Check if they paid for the specific month/year
+      paymentsResult = await sql`
+        SELECT student_id, amount, payment_date, status
+        FROM spp_payments 
+        WHERE month = ${month} AND year = ${year} AND payment_type = 'SPP' AND status = 'Lunas'
+      `;
+    }
+    const payments = paymentsResult.rows;
+
+    // Map students with their payment status
+    const report = students.map((student: any) => {
+      const payment = payments.find((p: any) => p.student_id === student.id);
+      return {
+        studentId: student.id,
+        studentName: student.name,
+        studentClass: student.class,
+        status: payment ? 'Lunas' : 'Belum Bayar',
+        amount: payment ? Number(payment.amount) : 0,
+        paymentDate: payment ? payment.payment_date : null,
+        paymentMonth: payment ? payment.month : null,
+      };
+    });
+
+    return report;
+  } catch (error) {
+    console.error('Error generating payment report:', error);
+    return [];
+  }
+}

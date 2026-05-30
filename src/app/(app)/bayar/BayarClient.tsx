@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { recordPayment } from '@/lib/actions';
+import { useState, useEffect } from 'react';
+import { recordPayment, getPaymentStatusReport } from '@/lib/actions';
 
 function formatRupiah(amount: number) {
   return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(amount);
@@ -15,6 +15,29 @@ export default function BayarClient({ students, recentPayments }: { students: an
   const currentYear = new Date().getFullYear();
   const years = [currentYear - 1, currentYear, currentYear + 1];
   const currentMonth = months[new Date().getMonth()];
+
+  const [filterType, setFilterType] = useState('SPP');
+  const [filterMonth, setFilterMonth] = useState(currentMonth);
+  const [filterYear, setFilterYear] = useState(currentYear);
+  const [reportData, setReportData] = useState<any[]>([]);
+  const [loadingReport, setLoadingReport] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const fetchReport = async (type: string, month: string, year: number) => {
+    setLoadingReport(true);
+    try {
+      const data = await getPaymentStatusReport(month, year, type);
+      setReportData(data);
+    } catch (error) {
+      console.error('Gagal mengambil laporan:', error);
+    } finally {
+      setLoadingReport(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchReport(filterType, filterMonth, filterYear);
+  }, [filterType, filterMonth, filterYear]);
 
   const handleSubmit = async (formData: FormData) => {
     setLoading(true);
@@ -149,6 +172,141 @@ export default function BayarClient({ students, recentPayments }: { students: an
               )}
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Laporan Status Pembayaran */}
+      <div className="bg-white rounded-2xl p-6 shadow-sm border border-emerald-50 space-y-6">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-gray-100 pb-4">
+          <div>
+            <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+              <span className="material-symbols-outlined text-primary">analytics</span>
+              Laporan Status Pembayaran
+            </h3>
+            <p className="text-secondary text-xs">Pantau siapa saja yang sudah lunas atau belum.</p>
+          </div>
+          
+          {/* Stats summary */}
+          <div className="flex gap-3">
+            <span className="bg-emerald-50 text-primary border border-emerald-100 px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1">
+              <span className="material-symbols-outlined text-sm">check_circle</span>
+              Lunas: {reportData.filter(r => r.status === 'Lunas').length}
+            </span>
+            <span className="bg-rose-50 text-error border border-rose-100 px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1">
+              <span className="material-symbols-outlined text-sm">cancel</span>
+              Belum: {reportData.filter(r => r.status === 'Belum Bayar').length}
+            </span>
+          </div>
+        </div>
+
+        {/* Filter controls */}
+        <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+          <div className="flex flex-wrap gap-3 w-full md:w-auto">
+            <select 
+              value={filterType}
+              onChange={(e) => setFilterType(e.target.value)}
+              className="px-4 py-2 rounded-xl border border-gray-200 text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none bg-white text-sm"
+            >
+              <option value="SPP">SPP Bulanan</option>
+              <option value="Daftar Ulang">Daftar Ulang Tahunan</option>
+            </select>
+
+            {filterType === 'SPP' && (
+              <select 
+                value={filterMonth}
+                onChange={(e) => setFilterMonth(e.target.value)}
+                className="px-4 py-2 rounded-xl border border-gray-200 text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none bg-white text-sm"
+              >
+                {months.map(m => <option key={m} value={m}>{m}</option>)}
+              </select>
+            )}
+
+            <select 
+              value={filterYear}
+              onChange={(e) => setFilterYear(Number(e.target.value))}
+              className="px-4 py-2 rounded-xl border border-gray-200 text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none bg-white text-sm"
+            >
+              {years.map(y => <option key={y} value={y}>{y}</option>)}
+            </select>
+          </div>
+
+          {/* Search box */}
+          <div className="relative w-full md:w-64">
+            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-sm">search</span>
+            <input 
+              type="text" 
+              placeholder="Cari nama santri..." 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-9 pr-4 py-2 rounded-xl border border-gray-200 text-slate-900 text-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none"
+            />
+          </div>
+        </div>
+
+        {/* Table Section */}
+        <div className="border border-gray-100 rounded-xl overflow-hidden">
+          {loadingReport ? (
+            <div className="text-center py-10 text-secondary flex flex-col items-center justify-center gap-2">
+              <span className="material-symbols-outlined animate-spin text-primary">sync</span>
+              <p className="text-xs">Memuat laporan...</p>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse text-sm">
+                <thead>
+                  <tr className="bg-surface-container-low text-slate-900 text-xs">
+                    <th className="px-6 py-3 font-semibold">No</th>
+                    <th className="px-6 py-3 font-semibold">Nama Santri</th>
+                    <th className="px-6 py-3 font-semibold">Kelas</th>
+                    <th className="px-6 py-3 font-semibold">Status</th>
+                    <th className="px-6 py-3 font-semibold">Nominal</th>
+                    <th className="px-6 py-3 font-semibold">Tanggal Pembayaran</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {reportData.filter(r => r.studentName.toLowerCase().includes(searchQuery.toLowerCase())).length === 0 ? (
+                    <tr>
+                      <td colSpan={6} className="px-6 py-8 text-center text-secondary text-xs">
+                        Tidak ada data ditemukan.
+                      </td>
+                    </tr>
+                  ) : (
+                    reportData
+                      .filter(r => r.studentName.toLowerCase().includes(searchQuery.toLowerCase()))
+                      .map((row, idx) => (
+                        <tr key={row.studentId} className="hover:bg-gray-50/50 transition-colors">
+                          <td className="px-6 py-3 text-secondary">{idx + 1}</td>
+                          <td className="px-6 py-3 font-medium text-gray-900">{row.studentName}</td>
+                          <td className="px-6 py-3">
+                            <span className="bg-slate-100 text-slate-700 px-2 py-0.5 rounded text-[10px] font-semibold">
+                              {row.studentClass}
+                            </span>
+                          </td>
+                          <td className="px-6 py-3">
+                            <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                              row.status === 'Lunas' 
+                                ? 'bg-green-100 text-green-700' 
+                                : 'bg-red-100 text-red-600'
+                            }`}>
+                              {row.status.toUpperCase()}
+                            </span>
+                          </td>
+                          <td className="px-6 py-3 font-medium text-gray-900">
+                            {row.status === 'Lunas' ? formatRupiah(row.amount) : '-'}
+                          </td>
+                          <td className="px-6 py-3 text-secondary text-xs">
+                            {row.status === 'Lunas' && row.paymentDate 
+                              ? new Intl.DateTimeFormat('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(row.paymentDate)) 
+                              : '-'}
+                            {row.paymentMonth && row.paymentMonth !== filterMonth && filterType === 'SPP' && ` (di Bulan: ${row.paymentMonth})`}
+                          </td>
+                        </tr>
+                      ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </div>
     </div>

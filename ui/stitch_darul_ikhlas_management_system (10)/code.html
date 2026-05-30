@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Input Absensi Santri - Darul Ikhlas</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#181d1a",
+                        "on-tertiary-fixed-variant": "#41484a",
+                        "tertiary-fixed-dim": "#c1c8ca",
+                        "on-tertiary-container": "#ccd3d5",
+                        "primary-fixed": "#a0f4ca",
+                        "surface-container-low": "#f1f5f0",
+                        "secondary-fixed": "#d1e7dd",
+                        "inverse-primary": "#84d7af",
+                        "surface-bright": "#f7faf5",
+                        "inverse-surface": "#2d312e",
+                        "on-primary-fixed-variant": "#005137",
+                        "primary-fixed-dim": "#84d7af",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "surface-container-highest": "#e0e3df",
+                        "on-surface-variant": "#3f4943",
+                        "on-secondary-container": "#556961",
+                        "error-container": "#ffdad6",
+                        "on-primary-container": "#8fe2ba",
+                        "surface-dim": "#d7dbd6",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed": "#dde4e6",
+                        "surface-tint": "#0b6c4b",
+                        "on-secondary-fixed": "#0c1f19",
+                        "secondary-container": "#d1e7dd",
+                        "on-primary-fixed": "#002114",
+                        "outline": "#6f7a72",
+                        "on-tertiary-fixed": "#161d1f",
+                        "on-background": "#181d1a",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-container": "#545b5d",
+                        "surface": "#f7faf5",
+                        "outline-variant": "#bec9c1",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#eef2ed",
+                        "primary-container": "#006747",
+                        "primary": "#004d34",
+                        "on-secondary-fixed-variant": "#374b44",
+                        "surface-container-high": "#e5e9e4",
+                        "secondary-fixed-dim": "#b6cbc2",
+                        "background": "#f7faf5",
+                        "surface-container": "#ebefea",
+                        "on-secondary": "#ffffff",
+                        "secondary": "#4f635b",
+                        "tertiary": "#3d4446",
+                        "surface-variant": "#e0e3df",
+                        "surface-container-lowest": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "lg": "48px",
+                        "base": "8px",
+                        "xl": "80px",
+                        "gutter": "16px",
+                        "xs": "4px",
+                        "md": "24px",
+                        "sm": "12px",
+                        "margin": "24px"
+                    },
+                    "fontFamily": {
+                        "h2": ["Plus Jakarta Sans"],
+                        "body-sm": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "h1": ["Plus Jakarta Sans"],
+                        "h3": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "h2": ["32px", { "lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "h1": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "h3": ["24px", { "lineHeight": "1.4", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+          font-variation-settings:
+          'FILL' 0,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 24
+        }
+        .material-symbols-outlined.fill {
+          font-variation-settings:
+          'FILL' 1,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 24
+        }
+        
+        /* Subtle Islamic geometric pattern overlay */
+        .bg-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23006747' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md min-h-screen pb-[90px] pt-[64px] bg-pattern">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-4 h-16 bg-white shadow-sm shadow-emerald-900/5 font-['Plus_Jakarta_Sans'] antialiased">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-bold">
+                DI
+            </div>
+<span class="text-lg font-bold text-emerald-900">Darul Ikhlas</span>
+</div>
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-gray-500 hover:bg-emerald-50 transition-colors active:scale-95">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+<!-- Header Section: Date & Class Selector -->
+<section class="mb-8">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+<div>
+<h1 class="font-h2 text-h2 text-primary mb-1">Input Absensi</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Kelas: Jilid 3A • Ustadz Ahmad</p>
+</div>
+<!-- Date Picker UI -->
+<div class="flex items-center gap-2 bg-surface-container rounded-lg p-1 w-full md:w-auto shadow-sm">
+<button class="p-2 rounded hover:bg-surface-variant text-on-surface transition-colors flex items-center justify-center active:scale-95">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<div class="flex-1 text-center px-4 py-2 font-label-md text-label-md text-primary-container flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-xl">calendar_today</span>
+                        Kamis, 24 Okt 2023
+                    </div>
+<button class="p-2 rounded hover:bg-surface-variant text-on-surface transition-colors flex items-center justify-center active:scale-95">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Quick Summary Stats -->
+<div class="grid grid-cols-4 gap-2 mb-6">
+<div class="bg-white rounded-xl p-3 border border-surface-variant flex flex-col items-center justify-center shadow-sm">
+<span class="font-h3 text-h3 text-primary-container">12</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">Hadir</span>
+</div>
+<div class="bg-white rounded-xl p-3 border border-surface-variant flex flex-col items-center justify-center shadow-sm">
+<span class="font-h3 text-h3 text-secondary">2</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">Izin</span>
+</div>
+<div class="bg-white rounded-xl p-3 border border-surface-variant flex flex-col items-center justify-center shadow-sm">
+<span class="font-h3 text-h3 text-tertiary">1</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">Sakit</span>
+</div>
+<div class="bg-white rounded-xl p-3 border border-surface-variant flex flex-col items-center justify-center shadow-sm">
+<span class="font-h3 text-h3 text-error">0</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">Alfa</span>
+</div>
+</div>
+</section>
+<!-- Attendance List -->
+<section class="bg-white rounded-2xl shadow-sm border border-surface-variant overflow-hidden">
+<!-- List Header (Desktop) -->
+<div class="hidden md:grid md:grid-cols-[1fr_auto] gap-4 p-4 border-b border-surface-variant bg-surface-container-lowest">
+<div class="font-label-md text-label-md text-on-surface-variant pl-2">Nama Santri</div>
+<div class="font-label-md text-label-md text-on-surface-variant pr-4">Status Kehadiran</div>
+</div>
+<!-- Student 1 -->
+<div class="group border-b border-surface-variant last:border-0 p-4 transition-colors hover:bg-surface-bright flex flex-col md:flex-row md:items-center gap-4">
+<div class="flex items-center gap-3 flex-1">
+<img alt="Profile" class="w-10 h-10 rounded-full object-cover border border-surface-variant" data-alt="headshot of a young indonesian boy smiling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZSRweYl8fScqRQkmg5SfOc-Qe3KTUQ0CkmSTgrmrs5k6Cj8Rv7_BlIkRo_qwuTJBKrABB2fHbgzKivV-Z9xZO75BiKWAdKjUSliAkCKyOhYG6V4tEVcJFv21UrGxZGzl_rhVZnyEJGVlCU8nfLSPcbiRDXlZZ0er1F5ic_ydIkiJVMea8pB1_1EuVIRi5N6_-dWbpXCRxrdYibnNtIGglepB9M-O3isB6brhF2CavfAjotYNRIGfLyS_Chnu4yiiDthmWehwzaoI"/>
+<div>
+<div class="font-label-md text-label-md text-on-surface">Ahmad Rizki</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">NIS: 2023001</div>
+</div>
+</div>
+<!-- Radio Segmented Control -->
+<div class="flex bg-surface-container rounded-lg p-1 w-full md:w-auto">
+<label class="flex-1 md:w-[72px] text-center cursor-pointer relative">
+<input checked="" class="peer sr-only" name="status_1" type="radio" value="Hadir"/>
+<div class="py-2 px-1 rounded-md font-label-sm text-label-sm text-on-surface-variant peer-checked:bg-primary peer-checked:text-white transition-colors duration-200">
+                            Hadir
+                        </div>
+</label>
+<label class="flex-1 md:w-[72px] text-center cursor-pointer relative">
+<input class="peer sr-only" name="status_1" type="radio" value="Izin"/>
+<div class="py-2 px-1 rounded-md font-label-sm text-label-sm text-on-surface-variant peer-checked:bg-secondary peer-checked:text-white transition-colors duration-200">
+                            Izin
+                        </div>
+</label>
+<label class="flex-1 md:w-[72px] text-center cursor-pointer relative">
+<input class="peer sr-only" name="status_1" type="radio" value="Sakit"/>
+<div class="py-2 px-1 rounded-md font-label-sm text-label-sm text-on-surface-variant peer-checked:bg-tertiary peer-checked:text-white transition-colors duration-200">
+                            Sakit
+                        </div>
+</label>
+<label class="flex-1 md:w-[72px] text-center cursor-pointer relative">
+<input class="peer sr-only" name="status_1" type="radio" value="Alfa"/>
+<div class="py-2 px-1 rounded-md font-label-sm text-label-sm text-on-surface-variant peer-checked:bg-error peer-checked:text-white transition-colors duration-200">
+                            Alfa
+                        </div>
+</label>
+</div>
+</div>
+<!-- Student 2 -->
+<div class="group border-b border-surface-variant last:border-0 p-4 transition-colors hover:bg-surface-bright flex flex-col md:flex-row md:items-center gap-4">
+<div class="flex items-center gap-3 flex-1">
+<img alt="Profile" class="w-10 h-10 rounded-full object-cover border border-surface-variant" data-alt="headshot of a young indonesian girl wearing hijab" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBT_UDmD61gPfLqUyQ_qoopiQ3AwDFixe2eDk4d4YpVfZwVfJGJ8iPBYFEvYuvH1VFc9TzUveVgfQb7cEHlx1QmyyUScvPxSLb7DpMu2gGmPU8lfUq33x_vZ6sJpGMuwQsnbC75btGl_Zx0X6ILY3hN9yyYb9dclPARMsgDHI-hOgDrvR4UoCsafOLfxE66CjNOJrBXH9lsTivv_yM6-1gb9IY4m2YVN52r8eBzkPZ9hw5yiGQ50S63KPW9P0-c4njuh9l19em-iTI"/>
+<div>
+<div class="font-label-md text-label-md text-on-surface">Siti Aminah</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">NIS: 2023002</div>
+</div>
+</div>
+<!-- Radio Segmented Control -->
+<div class="flex bg-surface-container rounded-lg p-1 w-full md:w-auto">
+<label class="flex-1 md:w-[72px] text-center cursor-pointer relative">
+<input class="peer sr-only" name="status_2" type="radio" value="Hadir"/>
+<div class="py-2 px-1 rounded-md font-label-sm text-label-sm text-on-surface-variant peer-checked:bg-primary peer-checked:text-white transition-colors duration-200">
+                            Hadir
+                        </div>
+</label>
+<label class="flex-1 md:w-[72px] text-center cursor-pointer relative">
+<input class="peer sr-only" name="status_2" type="radio" value="Izin"/>
+<div class="py-2 px-1 rounded-md font-label-sm text-label-sm text-on-surface-variant peer-checked:bg-secondary peer-checked:text-white transition-colors duration-200">
+                            Izin
+                        </div>
+</label>
+<label class="flex-1 md:w-[72px] text-center cursor-pointer relative">
+<input checked="" class="peer sr-only" name="status_2" type="radio" value="Sakit"/>
+<div class="py-2 px-1 rounded-md font-label-sm text-label-sm text-on-surface-variant peer-checked:bg-tertiary peer-checked:text-white transition-colors duration-200">
+                            Sakit
+                        </div>
+</label>
+<label class="flex-1 md:w-[72px] text-center cursor-pointer relative">
+<input class="peer sr-only" name="status_2" type="radio" value="Alfa"/>
+<div class="py-2 px-1 rounded-md font-label-sm text-label-sm text-on-surface-variant peer-checked:bg-error peer-checked:text-white transition-colors duration-200">
+                            Alfa
+                        </div>
+</label>
+</div>
+</div>
+<!-- Student 3 -->
+<div class="group border-b border-surface-variant last:border-0 p-4 transition-colors hover:bg-surface-bright flex flex-col md:flex-row md:items-center gap-4">
+<div class="flex items-center gap-3 flex-1">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center font-label-md text-on-surface-variant border border-surface-variant">
+                        B
+                    </div>
+<div>
+<div class="font-label-md text-label-md text-on-surface">Budi Santoso</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">NIS: 2023003</div>
+</div>
+</div>
+<!-- Radio Segmented Control -->
+<div class="flex bg-surface-container rounded-lg p-1 w-full md:w-auto">
+<label class="flex-1 md:w-[72px] text-center cursor-pointer relative">
+<input checked="" class="peer sr-only" name="status_3" type="radio" value="Hadir"/>
+<div class="py-2 px-1 rounded-md font-label-sm text-label-sm text-on-surface-variant peer-checked:bg-primary peer-checked:text-white transition-colors duration-200">
+                            Hadir
+                        </div>
+</label>
+<label class="flex-1 md:w-[72px] text-center cursor-pointer relative">
+<input class="peer sr-only" name="status_3" type="radio" value="Izin"/>
+<div class="py-2 px-1 rounded-md font-label-sm text-label-sm text-on-surface-variant peer-checked:bg-secondary peer-checked:text-white transition-colors duration-200">
+                            Izin
+                        </div>
+</label>
+<label class="flex-1 md:w-[72px] text-center cursor-pointer relative">
+<input class="peer sr-only" name="status_3" type="radio" value="Sakit"/>
+<div class="py-2 px-1 rounded-md font-label-sm text-label-sm text-on-surface-variant peer-checked:bg-tertiary peer-checked:text-white transition-colors duration-200">
+                            Sakit
+                        </div>
+</label>
+<label class="flex-1 md:w-[72px] text-center cursor-pointer relative">
+<input class="peer sr-only" name="status_3" type="radio" value="Alfa"/>
+<div class="py-2 px-1 rounded-md font-label-sm text-label-sm text-on-surface-variant peer-checked:bg-error peer-checked:text-white transition-colors duration-200">
+                            Alfa
+                        </div>
+</label>
+</div>
+</div>
+</section>
+<!-- Submit Action -->
+<div class="mt-8 flex justify-end">
+<button class="w-full md:w-auto bg-primary text-on-primary font-label-md text-label-md py-3 px-8 rounded-full shadow-sm hover:bg-primary-container transition-colors active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined fill text-xl">save</span>
+                Simpan Absensi
+            </button>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 py-3 mb-safe bg-white/95 backdrop-blur-md border-t border-gray-100 shadow-[0_-4px_12px_rgba(0,103,71,0.05)] rounded-t-lg md:hidden">
+<a class="flex flex-col items-center justify-center text-gray-400 hover:text-emerald-600 active:scale-90 transition-all duration-200 w-16" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="dashboard">dashboard</span>
+<span class="text-[10px] font-medium font-['Plus_Jakarta_Sans']">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-gray-400 hover:text-emerald-600 active:scale-90 transition-all duration-200 w-16" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="group">group</span>
+<span class="text-[10px] font-medium font-['Plus_Jakarta_Sans']">Santri</span>
+</a>
+<a class="flex flex-col items-center justify-center text-emerald-700 bg-emerald-50/50 rounded-xl px-3 py-1 active:scale-90 transition-all duration-200 w-16" href="#">
+<span class="material-symbols-outlined mb-1 fill" data-icon="fact_check">fact_check</span>
+<span class="text-[10px] font-medium font-['Plus_Jakarta_Sans']">Absensi</span>
+</a>
+<a class="flex flex-col items-center justify-center text-gray-400 hover:text-emerald-600 active:scale-90 transition-all duration-200 w-16" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="trending_up">trending_up</span>
+<span class="text-[10px] font-medium font-['Plus_Jakarta_Sans']">Progres</span>
+</a>
+<a class="flex flex-col items-center justify-center text-gray-400 hover:text-emerald-600 active:scale-90 transition-all duration-200 w-16" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="payments">payments</span>
+<span class="text-[10px] font-medium font-['Plus_Jakarta_Sans']">Bayar</span>
+</a>
+</nav>
+</body></html>

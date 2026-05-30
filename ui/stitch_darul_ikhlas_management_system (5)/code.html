@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Profil Saya - Darul Ikhlas</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed": "#002114",
+                        "on-primary-container": "#8fe2ba",
+                        "primary-fixed-dim": "#84d7af",
+                        "on-tertiary-container": "#ccd3d5",
+                        "on-secondary-fixed": "#0c1f19",
+                        "inverse-on-surface": "#eef2ed",
+                        "surface-variant": "#e0e3df",
+                        "error-container": "#ffdad6",
+                        "surface-container-highest": "#e0e3df",
+                        "tertiary-fixed-dim": "#c1c8ca",
+                        "tertiary-container": "#545b5d",
+                        "primary-fixed": "#a0f4ca",
+                        "on-tertiary-fixed-variant": "#41484a",
+                        "on-secondary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "on-surface": "#181d1a",
+                        "tertiary-fixed": "#dde4e6",
+                        "inverse-surface": "#2d312e",
+                        "secondary": "#4f635b",
+                        "primary": "#004d34",
+                        "secondary-container": "#d1e7dd",
+                        "primary-container": "#006747",
+                        "on-tertiary-fixed": "#161d1f",
+                        "on-secondary-container": "#556961",
+                        "inverse-primary": "#84d7af",
+                        "surface": "#f7faf5",
+                        "background": "#f7faf5",
+                        "secondary-fixed-dim": "#b6cbc2",
+                        "secondary-fixed": "#d1e7dd",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error": "#ffffff",
+                        "surface-dim": "#d7dbd6",
+                        "on-primary-fixed-variant": "#005137",
+                        "surface-bright": "#f7faf5",
+                        "surface-tint": "#0b6c4b",
+                        "surface-container": "#ebefea",
+                        "tertiary": "#3d4446",
+                        "outline-variant": "#bec9c1",
+                        "on-surface-variant": "#3f4943",
+                        "surface-container-low": "#f1f5f0",
+                        "on-tertiary": "#ffffff",
+                        "outline": "#6f7a72",
+                        "surface-container-high": "#e5e9e4",
+                        "on-secondary-fixed-variant": "#374b44",
+                        "on-error-container": "#93000a",
+                        "on-background": "#181d1a",
+                        "error": "#ba1a1a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "md": "24px",
+                        "xl": "80px",
+                        "sm": "12px",
+                        "xs": "4px",
+                        "margin": "24px",
+                        "gutter": "16px",
+                        "lg": "48px"
+                    },
+                    "fontFamily": {
+                        "h1": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "h3": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "body-sm": ["Plus Jakarta Sans"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "h2": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "h1": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-sm": ["12px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "h3": ["24px", { "lineHeight": "1.4", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "h2": ["32px", { "lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+        }
+        .bg-pattern {
+            background-image: radial-gradient(theme('colors.outline-variant') 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.3;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="antialiased min-h-screen flex flex-col font-body-md text-body-md">
+<!-- TopAppBar -->
+<header class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md docked full-width top-0 sticky border-b border-slate-100 dark:border-slate-800 shadow-sm flex items-center justify-between px-6 h-16 w-full z-40 transition-colors duration-200 ease-in-out">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container-high flex items-center justify-center">
+<img alt="Wali Santri Profile" class="w-full h-full object-cover" data-alt="Portrait of a middle-aged Indonesian man, smiling gently, wearing professional attire, clean background, warm lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIhRlKOV-A525xMCCgQZNgkHo4UV7FcRW1yT7hW3itxh_ZhKPTCJ3Bx9FM-oIJznqjxXPJTDRhzes4SQ_tvmfAs_oxv-aUlD7zKx5njkVlbfp8W0ncUnlnDzfK2gtvp63kjBBGtOHDCw6skAzemB1_6hnbryAMh4Fje_CL5qPImcXSP0Nkzr5iozT0nQ4pPhyWczU1F4DRyRwsel_CSIiFPIqIrNFm_MMSXizyVVbpzw8uxJr9RWEQnwYpxAwcTvzNPn8UWLu5oME"/>
+</div>
+<div class="font-plus-jakarta-sans font-extrabold text-emerald-900 dark:text-emerald-100 font-h3 text-h3">Darul Ikhlas</div>
+</div>
+<div class="flex items-center gap-4 text-emerald-800 dark:text-emerald-400">
+<button class="hover:bg-emerald-50 dark:hover:bg-emerald-900/20 p-2 rounded-full transition-colors duration-200 ease-in-out flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</div>
+</header>
+<!-- Main Layout Grid -->
+<div class="flex-1 flex w-full max-w-[1440px] mx-auto">
+<!-- NavigationDrawer (Desktop) -->
+<aside class="hidden md:flex flex-col h-full py-8 bg-white dark:bg-slate-900 h-full w-80 rounded-r-2xl divide-y divide-slate-100 dark:divide-slate-800 shadow-2xl sticky top-16 transition-all duration-300" style="height: calc(100vh - 64px);">
+<div class="px-6 pb-6 left_align">
+<div class="flex items-center gap-4 mb-2">
+<img alt="Wali Santri Avatar" class="w-14 h-14 rounded-full shadow-sm" data-alt="Portrait of a middle-aged Indonesian man, smiling gently, wearing professional attire, clean background, warm lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtFaX9BR3rWW-L3VyCPBu16vDei4omyPE-yJzGJ8t3XXCwcmUHXuNN7kpjyUZkwYNthOG0qb1QE_q7_ft2Ws7VS1Qei78VLlOlrhgp5wpEdZLM0EYCjQdR-evsaQIh3rpU1TsLx0R0LnlV3SUEksSvSX7WyNd8m2IShf9w1nrUlXcnYWPXD72C0thX7EKBk14xLgMYxjYnGse4inu6d9ArHEJrIy3ofowHhMPvx-dicrjKAP3cAg2idcFgw9-7RTmCKm1HpxEkOQs"/>
+<div>
+<h2 class="font-h3 text-h3 text-emerald-900 font-bold">Wali Santri</h2>
+<p class="font-body-sm text-body-sm text-slate-500">Orang Tua / Wali</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-4 pt-6 space-y-2">
+<a class="flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-300 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Pengaturan</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-300 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400" href="#">
+<span class="material-symbols-outlined" data-icon="contact_support">contact_support</span>
+<span class="font-label-md text-label-md">Hubungi Kami</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-300 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-label-md text-label-md">Bantuan</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-300 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 mt-auto" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-label-md text-label-md">Keluar</span>
+</a>
+</nav>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full px-4 md:px-8 py-8 pb-24 md:pb-8">
+<!-- Breadcrumb & Header Action -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+<nav aria-label="Breadcrumb" class="flex items-center space-x-2 text-surface-variant font-body-sm text-body-sm">
+<a class="text-primary hover:text-primary-container transition-colors" href="#">Dashboard</a>
+<span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+<span class="text-on-surface-variant font-medium">Profil Saya</span>
+</nav>
+<button class="hidden md:flex items-center gap-2 bg-error-container text-on-error-container hover:bg-error hover:text-on-error px-4 py-2 rounded-lg font-label-md text-label-md transition-colors shadow-sm">
+<span class="material-symbols-outlined text-sm" data-icon="logout">logout</span>
+                    Logout
+                </button>
+</div>
+<!-- Bento Grid Layout for Profile -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Left Column: Photo & List of Children (4 cols) -->
+<div class="lg:col-span-4 flex flex-col gap-6">
+<!-- Photo Profile Section -->
+<div class="bg-surface-container-lowest rounded-2xl p-6 shadow-[0_4px_20px_-4px_rgba(0,103,71,0.05)] border border-surface-container-high flex flex-col items-center text-center relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-24 bg-primary-container/10"></div>
+<div class="relative w-32 h-32 mb-4 mt-6">
+<img alt="Profile Photo" class="w-full h-full rounded-full border-4 border-surface-container-lowest shadow-md object-cover z-10" data-alt="Portrait of a middle-aged Indonesian man, smiling gently, wearing professional attire, clean background, warm lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCPuta1QVoT9Xftn5ikyJAUN8vtrZ3RYGndmPcmTbn-Y1NClKBx5BvAkHqBKcmB6nRkrH3UDjw099ko0ru2KUo4oyIigqPPR9VmvkSFu9h08Paw_AczVHLe-21nfLIzcr8HIPTT4-GHGdMz5VdatvFLVhfJc1mtWbynTuBDhiBGDbwv9pEFnnVB0zv2ReOSnn0I1qAvLg0V2nWPSfzFzIz9wIbP57-05d85EkdaqTm7V9GjGTG_On6KhIgIg4dW06UycZcQOQiCpU"/>
+<button class="absolute bottom-0 right-0 bg-primary text-on-primary p-2 rounded-full shadow-lg hover:bg-primary-container transition-transform hover:scale-105 z-20">
+<span class="material-symbols-outlined text-sm" data-icon="edit">edit</span>
+</button>
+</div>
+<h1 class="font-h3 text-h3 text-on-surface mb-1">Ahmad Faisal</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6">ahmad.faisal@email.com</p>
+<div class="w-full">
+<label class="flex items-center justify-center w-full bg-secondary-container text-on-secondary-container hover:bg-primary hover:text-on-primary py-3 px-4 rounded-xl cursor-pointer transition-colors font-label-md text-label-md gap-2 border border-dashed border-primary-fixed-dim" for="photo-upload">
+<span class="material-symbols-outlined" data-icon="cloud_upload">cloud_upload</span>
+                                Upload Foto Baru
+                            </label>
+<input accept="image/*" class="hidden" id="photo-upload" type="file"/>
+<p class="font-label-sm text-label-sm text-outline mt-2 text-center">JPG, GIF or PNG. Max size of 2MB</p>
+</div>
+</div>
+<!-- List of Children Section -->
+<div class="bg-surface-container-lowest rounded-2xl p-6 shadow-[0_4px_20px_-4px_rgba(0,103,71,0.05)] border border-surface-container-high">
+<div class="flex items-center gap-2 mb-4 border-b border-surface-variant pb-3">
+<span class="material-symbols-outlined text-primary" data-icon="family_restroom">family_restroom</span>
+<h2 class="font-h3 text-h3 text-on-surface">Data Santri (Anak)</h2>
+</div>
+<div class="flex flex-col gap-3">
+<!-- Child Card 1 (Active) -->
+<div class="border border-primary-fixed-dim bg-surface p-4 rounded-xl flex items-center justify-between shadow-sm relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+<div>
+<h3 class="font-label-md text-label-md text-on-surface mb-1">Muhammad Rizky</h3>
+<div class="flex items-center gap-3 font-body-sm text-body-sm text-on-surface-variant">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]" data-icon="school">school</span> Kelas 10</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]" data-icon="badge">badge</span> NIS: 23001</span>
+</div>
+</div>
+<button class="bg-primary text-on-primary px-3 py-1.5 rounded-lg font-label-sm text-label-sm shadow-sm opacity-50 cursor-not-allowed">
+                                    Terpilih
+                                </button>
+</div>
+<!-- Child Card 2 -->
+<div class="border border-surface-variant hover:border-primary-fixed-dim bg-surface-container-lowest p-4 rounded-xl flex items-center justify-between transition-colors">
+<div>
+<h3 class="font-label-md text-label-md text-on-surface mb-1">Aisyah Zahra</h3>
+<div class="flex items-center gap-3 font-body-sm text-body-sm text-on-surface-variant">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]" data-icon="school">school</span> Kelas 8</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]" data-icon="badge">badge</span> NIS: 25042</span>
+</div>
+</div>
+<button class="bg-secondary-container text-on-secondary-container hover:bg-primary hover:text-on-primary px-3 py-1.5 rounded-lg font-label-sm text-label-sm transition-colors">
+                                    Pilih
+                                </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Forms (8 cols) -->
+<div class="lg:col-span-8 flex flex-col gap-6">
+<!-- Profile Info Form -->
+<div class="bg-surface-container-lowest rounded-2xl p-6 md:p-8 shadow-[0_4px_20px_-4px_rgba(0,103,71,0.05)] border border-surface-container-high border-t-4 border-t-primary-fixed">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-primary" data-icon="manage_accounts">manage_accounts</span>
+<h2 class="font-h2 text-h2 text-on-surface">Informasi Pribadi</h2>
+</div>
+<form class="space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface" for="fullname">Nama Lengkap</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary rounded-xl px-4 py-3 font-body-md text-body-md text-on-surface transition-colors" id="fullname" placeholder="Masukkan nama lengkap" type="text" value="Ahmad Faisal"/>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface" for="phone">Nomor Telepon (WhatsApp)</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 flex items-center pl-4 text-on-surface-variant font-body-md text-body-md">+62</span>
+<input class="w-full bg-surface-container-lowest border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary rounded-xl pl-12 pr-4 py-3 font-body-md text-body-md text-on-surface transition-colors" id="phone" placeholder="8xxxxxxxxxx" type="tel" value="81234567890"/>
+</div>
+</div>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface flex items-center gap-2" for="email">
+                                    Email
+                                    <span class="bg-surface-variant text-on-surface-variant text-[10px] px-2 py-0.5 rounded-full font-semibold">Readonly</span>
+</label>
+<input class="w-full bg-surface-container-low border border-surface-variant text-on-surface-variant rounded-xl px-4 py-3 font-body-md text-body-md cursor-not-allowed" id="email" readonly="" type="email" value="ahmad.faisal@email.com"/>
+<p class="font-label-sm text-label-sm text-outline mt-1">Email digunakan untuk login dan tidak dapat diubah.</p>
+</div>
+<div class="pt-4 flex justify-end">
+<button class="bg-primary text-on-primary hover:bg-primary-container px-6 py-3 rounded-xl font-label-md text-label-md transition-colors shadow-[0_4px_12px_rgba(0,103,71,0.2)] flex items-center gap-2" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="save">save</span>
+                                    Simpan Profil
+                                </button>
+</div>
+</form>
+</div>
+<!-- Change Password Form -->
+<div class="bg-surface-container-lowest rounded-2xl p-6 md:p-8 shadow-[0_4px_20px_-4px_rgba(0,103,71,0.05)] border border-surface-container-high">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-secondary" data-icon="lock">lock</span>
+<h2 class="font-h3 text-h3 text-on-surface">Keamanan Akun</h2>
+</div>
+<form class="space-y-5">
+<div class="space-y-2 max-w-md">
+<label class="font-label-md text-label-md text-on-surface" for="current_password">Password Saat Ini</label>
+<div class="relative">
+<input class="w-full bg-surface-container-lowest border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary rounded-xl px-4 py-3 font-body-md text-body-md text-on-surface transition-colors pr-10" id="current_password" placeholder="••••••••" type="password"/>
+<button class="absolute inset-y-0 right-0 flex items-center pr-3 text-outline" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="visibility_off">visibility_off</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface" for="new_password">Password Baru</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary rounded-xl px-4 py-3 font-body-md text-body-md text-on-surface transition-colors" id="new_password" placeholder="Minimal 8 karakter" type="password"/>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface" for="confirm_password">Konfirmasi Password Baru</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary rounded-xl px-4 py-3 font-body-md text-body-md text-on-surface transition-colors" id="confirm_password" placeholder="Ulangi password baru" type="password"/>
+</div>
+</div>
+<div class="pt-4">
+<button class="bg-surface-container-high text-on-surface hover:bg-secondary-container hover:text-on-secondary-container px-6 py-3 rounded-xl font-label-md text-label-md transition-colors border border-outline-variant" type="button">
+                                    Ubah Password
+                                </button>
+</div>
+</form>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- BottomNavBar (Mobile) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 shadow-[0_-4px_10px_rgba(0,0,0,0.05)] rounded-t-2xl">
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-3 py-1.5 hover:bg-slate-50 dark:hover:bg-slate-800 scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-plus-jakarta-sans text-[11px] font-semibold mt-1">Beranda</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-3 py-1.5 hover:bg-slate-50 dark:hover:bg-slate-800 scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="font-plus-jakarta-sans text-[11px] font-semibold mt-1">Laporan</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-3 py-1.5 hover:bg-slate-50 dark:hover:bg-slate-800 scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+<span class="font-plus-jakarta-sans text-[11px] font-semibold mt-1">Presensi</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-emerald-50 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-200 rounded-xl px-3 py-1.5 hover:bg-slate-50 dark:hover:bg-slate-800 scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-plus-jakarta-sans text-[11px] font-semibold mt-1">Profil</span>
+</a>
+</nav>
+</body></html>

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Kelola Pembayaran SPP</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#181d1a",
+                        "on-tertiary-fixed-variant": "#41484a",
+                        "tertiary-fixed-dim": "#c1c8ca",
+                        "on-tertiary-container": "#ccd3d5",
+                        "primary-fixed": "#a0f4ca",
+                        "surface-container-low": "#f1f5f0",
+                        "secondary-fixed": "#d1e7dd",
+                        "inverse-primary": "#84d7af",
+                        "surface-bright": "#f7faf5",
+                        "inverse-surface": "#2d312e",
+                        "on-primary-fixed-variant": "#005137",
+                        "primary-fixed-dim": "#84d7af",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "surface-container-highest": "#e0e3df",
+                        "on-surface-variant": "#3f4943",
+                        "on-secondary-container": "#556961",
+                        "error-container": "#ffdad6",
+                        "on-primary-container": "#8fe2ba",
+                        "surface-dim": "#d7dbd6",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed": "#dde4e6",
+                        "surface-tint": "#0b6c4b",
+                        "on-secondary-fixed": "#0c1f19",
+                        "secondary-container": "#d1e7dd",
+                        "on-primary-fixed": "#002114",
+                        "outline": "#6f7a72",
+                        "on-tertiary-fixed": "#161d1f",
+                        "on-background": "#181d1a",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-container": "#545b5d",
+                        "surface": "#f7faf5",
+                        "outline-variant": "#bec9c1",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#eef2ed",
+                        "primary-container": "#006747",
+                        "primary": "#004d34",
+                        "on-secondary-fixed-variant": "#374b44",
+                        "surface-container-high": "#e5e9e4",
+                        "secondary-fixed-dim": "#b6cbc2",
+                        "background": "#f7faf5",
+                        "surface-container": "#ebefea",
+                        "on-secondary": "#ffffff",
+                        "secondary": "#4f635b",
+                        "tertiary": "#3d4446",
+                        "surface-variant": "#e0e3df",
+                        "surface-container-lowest": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "lg": "48px",
+                        "base": "8px",
+                        "xl": "80px",
+                        "gutter": "16px",
+                        "xs": "4px",
+                        "md": "24px",
+                        "sm": "12px",
+                        "margin": "24px"
+                    },
+                    "fontFamily": {
+                        "h2": ["Plus Jakarta Sans"],
+                        "body-sm": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "h1": ["Plus Jakarta Sans"],
+                        "h3": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "h2": ["32px", { "lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "h1": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "h3": ["24px", { "lineHeight": "1.4", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md antialiased min-h-screen flex flex-col pt-16 pb-20 md:pb-0">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-4 h-16 bg-white dark:bg-slate-900 shadow-sm shadow-emerald-900/5 border-b border-gray-100 dark:border-gray-800">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary font-bold text-sm">
+                DI
+            </div>
+<h1 class="font-h3 text-h3 text-emerald-900 dark:text-emerald-50">Darul Ikhlas</h1>
+</div>
+<button class="w-10 h-10 rounded-full hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-colors flex items-center justify-center text-emerald-900 dark:text-emerald-50 active:scale-95">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</header>
+<main class="flex-grow container mx-auto px-4 py-6 max-w-7xl">
+<!-- Header Section -->
+<div class="mb-8">
+<h2 class="font-h2 text-h2 text-primary mb-2">Kelola Pembayaran SPP</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Bulan: September 2023</p>
+</div>
+<!-- Summary Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+<!-- Total Lunas Card -->
+<div class="bg-surface-container-low rounded-xl p-6 shadow-sm border border-outline-variant/30 flex flex-col justify-between relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-primary"></div>
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="task_alt">task_alt</span>
+<span class="font-label-sm text-label-sm bg-primary/10 text-primary px-2 py-1 rounded-full">Lunas</span>
+</div>
+<div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-1">Total Lunas</p>
+<p class="font-h2 text-h2 text-on-surface">Rp 12.500.000</p>
+<p class="font-label-sm text-label-sm text-secondary mt-2">125 Santri</p>
+</div>
+</div>
+<!-- Belum Bayar Card -->
+<div class="bg-surface-container-low rounded-xl p-6 shadow-sm border border-outline-variant/30 flex flex-col justify-between relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-error"></div>
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-error text-3xl" data-icon="pending_actions">pending_actions</span>
+<span class="font-label-sm text-label-sm bg-error/10 text-error px-2 py-1 rounded-full">Pending</span>
+</div>
+<div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-1">Belum Dibayar</p>
+<p class="font-h2 text-h2 text-on-surface">Rp 2.500.000</p>
+<p class="font-label-sm text-label-sm text-error mt-2">25 Santri</p>
+</div>
+</div>
+<!-- Target Progress Card -->
+<div class="bg-surface-container-low rounded-xl p-6 shadow-sm border border-outline-variant/30 flex flex-col justify-between relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-secondary"></div>
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-secondary text-3xl" data-icon="donut_large">donut_large</span>
+</div>
+<div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-1">Progres Pembayaran</p>
+<div class="flex items-end gap-2 mb-2">
+<p class="font-h2 text-h2 text-on-surface">83%</p>
+</div>
+<div class="w-full bg-surface-variant rounded-full h-2.5 mt-2">
+<div class="bg-primary h-2.5 rounded-full" style="width: 83%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Search and Filter Bar -->
+<div class="flex flex-col md:flex-row gap-4 mb-6">
+<div class="relative flex-grow">
+<span class="material-symbols-outlined absolute left-3 top-1/2 transform -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-3 rounded-lg border border-outline-variant bg-surface-container-lowest focus:ring-2 focus:ring-primary focus:border-primary transition-shadow font-body-md text-body-md text-on-surface" placeholder="Cari nama santri..." type="text"/>
+</div>
+<button class="bg-surface-container-lowest border border-outline-variant px-4 py-3 rounded-lg flex items-center justify-center gap-2 hover:bg-surface-container-low transition-colors text-on-surface font-label-md text-label-md">
+<span class="material-symbols-outlined" data-icon="filter_list">filter_list</span>
+                Filter Kelas
+            </button>
+</div>
+<!-- Student List Container -->
+<div class="bg-surface-container-low rounded-xl shadow-sm border border-outline-variant/30 overflow-hidden">
+<!-- List Header (Desktop) -->
+<div class="hidden md:grid grid-cols-12 gap-4 px-6 py-4 border-b border-outline-variant/30 bg-surface-container bg-opacity-50 font-label-md text-label-md text-on-surface-variant">
+<div class="col-span-5">Nama Santri</div>
+<div class="col-span-2">Kelas</div>
+<div class="col-span-3">Status Pembayaran</div>
+<div class="col-span-2 text-right">Aksi</div>
+</div>
+<!-- List Items -->
+<div class="divide-y divide-outline-variant/30">
+<!-- Item 1: Lunas -->
+<div class="flex flex-col md:grid md:grid-cols-12 md:gap-4 px-6 py-4 items-center hover:bg-surface-container-lowest/50 transition-colors">
+<div class="flex items-center gap-3 w-full md:col-span-5 mb-3 md:mb-0">
+<div class="w-10 h-10 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold text-sm shrink-0">
+                            AF
+                        </div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Ahmad Fauzan</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant md:hidden">Kelas 5A</p>
+</div>
+</div>
+<div class="hidden md:block col-span-2 font-body-sm text-body-sm text-on-surface-variant">
+                        Kelas 5A
+                    </div>
+<div class="w-full md:w-auto md:col-span-3 mb-3 md:mb-0 flex justify-start">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary font-label-sm text-label-sm">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+                            Lunas
+                        </span>
+</div>
+<div class="w-full md:w-auto md:col-span-2 flex justify-end">
+<button class="text-primary hover:bg-primary/10 px-3 py-1.5 rounded-md font-label-sm text-label-sm transition-colors border border-transparent hover:border-primary/20">
+                            Detail
+                        </button>
+</div>
+</div>
+<!-- Item 2: Belum Bayar -->
+<div class="flex flex-col md:grid md:grid-cols-12 md:gap-4 px-6 py-4 items-center hover:bg-surface-container-lowest/50 transition-colors">
+<div class="flex items-center gap-3 w-full md:col-span-5 mb-3 md:mb-0">
+<div class="w-10 h-10 rounded-full bg-error-container text-on-error-container flex items-center justify-center font-bold text-sm shrink-0">
+                            SN
+                        </div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Siti Nurhaliza</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant md:hidden">Kelas 4B</p>
+</div>
+</div>
+<div class="hidden md:block col-span-2 font-body-sm text-body-sm text-on-surface-variant">
+                        Kelas 4B
+                    </div>
+<div class="w-full md:w-auto md:col-span-3 mb-3 md:mb-0 flex justify-start">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-error/10 text-error font-label-sm text-label-sm">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+                            Belum Bayar
+                        </span>
+</div>
+<div class="w-full md:w-auto md:col-span-2 flex justify-end gap-2">
+<button class="bg-primary text-on-primary hover:bg-primary/90 px-4 py-1.5 rounded-md font-label-sm text-label-sm transition-colors shadow-sm">
+                            Catat Bayar
+                        </button>
+</div>
+</div>
+<!-- Item 3: Lunas -->
+<div class="flex flex-col md:grid md:grid-cols-12 md:gap-4 px-6 py-4 items-center hover:bg-surface-container-lowest/50 transition-colors">
+<div class="flex items-center gap-3 w-full md:col-span-5 mb-3 md:mb-0">
+<div class="w-10 h-10 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold text-sm shrink-0">
+                            BM
+                        </div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Budi Santoso</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant md:hidden">Kelas 6A</p>
+</div>
+</div>
+<div class="hidden md:block col-span-2 font-body-sm text-body-sm text-on-surface-variant">
+                        Kelas 6A
+                    </div>
+<div class="w-full md:w-auto md:col-span-3 mb-3 md:mb-0 flex justify-start">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary font-label-sm text-label-sm">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+                            Lunas
+                        </span>
+</div>
+<div class="w-full md:w-auto md:col-span-2 flex justify-end">
+<button class="text-primary hover:bg-primary/10 px-3 py-1.5 rounded-md font-label-sm text-label-sm transition-colors border border-transparent hover:border-primary/20">
+                            Detail
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 py-3 mb-safe bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-gray-100 dark:border-gray-800 shadow-[0_-4px_12px_rgba(0,103,71,0.05)] rounded-t-lg md:hidden">
+<a class="flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 hover:text-emerald-600 dark:hover:text-emerald-300 active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-2xl" data-icon="dashboard">dashboard</span>
+<span class="text-[10px] font-medium font-['Plus_Jakarta_Sans'] mt-1">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 hover:text-emerald-600 dark:hover:text-emerald-300 active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-2xl" data-icon="group">group</span>
+<span class="text-[10px] font-medium font-['Plus_Jakarta_Sans'] mt-1">Santri</span>
+</a>
+<a class="flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 hover:text-emerald-600 dark:hover:text-emerald-300 active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-2xl" data-icon="fact_check">fact_check</span>
+<span class="text-[10px] font-medium font-['Plus_Jakarta_Sans'] mt-1">Absensi</span>
+</a>
+<a class="flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 hover:text-emerald-600 dark:hover:text-emerald-300 active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-2xl" data-icon="trending_up">trending_up</span>
+<span class="text-[10px] font-medium font-['Plus_Jakarta_Sans'] mt-1">Progres</span>
+</a>
+<!-- Active Tab: Bayar -->
+<a class="flex flex-col items-center justify-center text-emerald-700 dark:text-emerald-400 bg-emerald-50/50 dark:bg-emerald-900/20 rounded-xl px-3 py-1 active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-2xl fill" data-icon="payments">payments</span>
+<span class="text-[10px] font-medium font-['Plus_Jakarta_Sans'] mt-1">Bayar</span>
+</a>
+</nav>
+</body></html>

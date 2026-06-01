@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { saveProgressIqro, saveProgressSholat, saveProgressHafalan } from '@/lib/actions';
+import SearchableSelect from '@/components/SearchableSelect';
 
 function formatDate(dateStr: string) {
   const date = new Date(dateStr);
@@ -21,6 +22,26 @@ const surahsJuz30 = [
   "Al-'Asr", "Al-Humazah", "Al-Fil", "Quraisy", "Al-Ma'un",
   "Al-Kausar", "Al-Kafirun", "An-Nasr", "Al-Lahab", "Al-Ikhlas",
   "Al-Falaq", "An-Nas"
+];
+
+const sholatMaterials = [
+  'Wudhu',
+  'Lafaz Sebelum Azan',
+  'Azan',
+  'Doa Setelah Azan',
+  'Iqomah',
+  'Niat',
+  'Iftitah',
+  'Fatihah',
+  'Ayat',
+  'Ruku',
+  'I\'tidal',
+  'Sujud',
+  'Duduk diantara dua sujud',
+  'Tahiyat',
+  'Salam',
+  'Zikir',
+  'Doa'
 ];
 
 export default function ProgresClient({ students, iqroProgress, sholatProgress, hafalanProgress }: { students: any[], iqroProgress: any[], sholatProgress: any[], hafalanProgress: any[] }) {
@@ -144,10 +165,12 @@ export default function ProgresClient({ students, iqroProgress, sholatProgress, 
             <form action={handleIqroSubmit} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Pilih Santri</label>
-                <select name="student_id" required className="w-full px-4 py-2 border border-gray-200 text-slate-900 rounded-xl focus:ring-2 focus:ring-primary outline-none bg-white">
-                  <option value="">-- Pilih Santri --</option>
-                  {students.map(s => <option key={s.id} value={s.id}>{s.name} ({s.class})</option>)}
-                </select>
+                <SearchableSelect 
+                  options={students} 
+                  name="student_id" 
+                  required 
+                  placeholder="-- Pilih/Cari Santri --"
+                />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
@@ -236,10 +259,12 @@ export default function ProgresClient({ students, iqroProgress, sholatProgress, 
             <form action={handleHafalanSubmit} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Pilih Santri</label>
-                <select name="student_id" required className="w-full px-4 py-2 border border-gray-200 text-slate-900 rounded-xl focus:ring-2 focus:ring-primary outline-none bg-white">
-                  <option value="">-- Pilih Santri --</option>
-                  {students.map(s => <option key={s.id} value={s.id}>{s.name} ({s.class})</option>)}
-                </select>
+                <SearchableSelect 
+                  options={students} 
+                  name="student_id" 
+                  required 
+                  placeholder="-- Pilih/Cari Santri --"
+                />
               </div>
 
               <div>
@@ -333,10 +358,12 @@ export default function ProgresClient({ students, iqroProgress, sholatProgress, 
           <form action={handleSholatSubmit} className="space-y-6 max-w-2xl mx-auto">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Pilih Santri</label>
-              <select name="student_id" required className="w-full px-4 py-3 border border-gray-200 text-slate-900 rounded-xl focus:ring-2 focus:ring-primary outline-none bg-white">
-                <option value="">-- Pilih Santri --</option>
-                {students.map(s => <option key={s.id} value={s.id}>{s.name} ({s.class})</option>)}
-              </select>
+              <SearchableSelect 
+                options={students} 
+                name="student_id" 
+                required 
+                placeholder="-- Pilih/Cari Santri --"
+              />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -350,7 +377,12 @@ export default function ProgresClient({ students, iqroProgress, sholatProgress, 
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Materi Uji</label>
-                <input type="text" name="item_name" placeholder="Misal: Takbiratul Ihram, Al-Fatihah, dll" required className="w-full px-4 py-3 border border-gray-200 text-slate-900 rounded-xl focus:ring-2 focus:ring-primary outline-none" />
+                <select name="item_name" required className="w-full px-4 py-3 border border-gray-200 text-slate-900 rounded-xl focus:ring-2 focus:ring-primary outline-none bg-white">
+                  <option value="">-- Pilih Materi --</option>
+                  {sholatMaterials.map(m => (
+                    <option key={m} value={m}>{m}</option>
+                  ))}
+                </select>
               </div>
             </div>
 

@@ -7,49 +7,46 @@ const santriList = [
   { name: 'Ah. Alif Rizki', class: "Al-Qur'an", address: 'KBS', phone: '' },
   { name: 'Ahmad Zakwan Razik', class: "Al-Qur'an", address: 'KBS', phone: '' },
   { name: 'Ain Al Qadri', class: "Al-Qur'an", address: 'KBS', phone: '' },
-  { name: 'Annisa Shezan Qaisra', class: "Al-Qur'an", address: 'Griya Taman Sari', phone: '081234567891' },
+  { name: 'Alma Rohmah', class: 'IQRO', address: 'GTS', phone: '' },
   { name: 'Anggun Firmansyah', class: "Iqra' 6", address: 'Griya Taman Sari', phone: '' },
-  { name: 'M. Ar Royan Alfa Rizki', class: 'IQRO', address: 'KBS', phone: '081234567892' },
+  { name: 'Annisa Shezan Qaisra', class: "Al-Qur'an", address: 'Griya Taman Sari', phone: '081234567891' },
   { name: 'Asraf Ghani Al Qadri', class: "Al-Qur'an", address: 'KBS', phone: '081234567893' },
+  { name: 'Athaar Abrisam Rahman', class: 'IQRO', address: 'GTS', phone: '081234567810' },
+  { name: 'Aulian Basira Sujito', class: 'Iqro 3', address: 'GTS', phone: '' },
   { name: 'Azka Aulia', class: "Iqra' 5", address: 'KBS', phone: '' },
   { name: 'Bela Nursafitri', class: "Iqra' 5", address: 'GTS', phone: '081234567894' },
   { name: 'Datu Arkanel Reyhan', class: "Al-Qur'an", address: 'GTS', phone: '' },
   { name: 'Dimas Maulana', class: "Al-Qur'an", address: 'KBS', phone: '081234567895' },
   { name: 'Faiz Akbar Maulidi', class: 'Iqra 5', address: 'KBS', phone: '081234567896' },
   { name: 'Farzana Al-Mahira', class: "Iqra' 3", address: 'GTS', phone: '081234567897' },
+  { name: 'Fathin Ayudia Inara', class: "Iqra' 1", address: 'GTS', phone: '' },
   { name: 'Fatih Ali Muslim', class: "Al-Qur'an", address: 'KBS', phone: '081234567898' },
   { name: 'Fatimah Az Zahra', class: "Al-Qur'an", address: 'KBS', phone: '081234567899' },
-  { name: 'Halan Dwi Firmansyah', class: 'Iqra 4', address: 'GTS', phone: '081234567800' },
   { name: 'Haekal', class: 'Iqra 3', address: 'GTS', phone: '' },
   { name: 'Hafis Ibnu Hasan', class: 'Iqra 4', address: 'KBS', phone: '' },
-  { name: 'Muh.Harith Arsya', class: 'Iqra 5', address: 'GTS', phone: '081234567801' },
-  { name: 'M.Khidir Ali Muslim', class: 'IQRO', address: 'KBS', phone: '' },
-  { name: 'Kinara Kayla Putri', class: "Al-Qur'an", address: 'KBS', phone: '' },
+  { name: 'Halan Dwi Firmansyah', class: 'Iqra 4', address: 'GTS', phone: '081234567800' },
   { name: 'Julian Arzuyan Depita', class: "Iqra' 3", address: 'KBS', phone: '' },
   { name: 'Kasih Anzu Arizki', class: "Iqra' 5", address: 'KBS', phone: '' },
-  { name: 'M. Abizar Raffhizi', class: 'Iqra 1', address: 'Sudak Pallace', phone: '081234567803' },
+  { name: 'Lalu Ahmad Hisan Abyad Ahis', class: 'IQRO’5', address: 'GTS', phone: '081234567807' },
+  { name: 'M Ali Sandi', class: 'IQRO', address: 'KBS', phone: '' },
+  { name: 'M Rizky Pratama', class: 'IQRO', address: 'KBS', phone: '' },
+  { name: 'M Sarip Arrosit', class: 'IQRO', address: 'KBS', phone: '081234567806' },
+  { name: 'M. Abizar Raffhizi', class: 'Iqro 1', address: 'Sudak Pallace', phone: '081234567803' },
   { name: 'M. Al Ghazali', class: 'Iqra 3', address: 'KBS', phone: '' },
+  { name: 'M. Ar Royan Alfa Rizki', class: 'IQRO', address: 'KBS', phone: '081234567892' },
   { name: 'M. Azka Fadli Ramadhan', class: "Al-Qur'an", address: 'GTS', phone: '081234567804' },
   { name: 'M. Dzaka Raffasya', class: 'Iqra 4', address: 'Sudak Pallace', phone: '' },
-  { name: 'M Ali Sandi', class: 'IQRO', address: 'KBS', phone: '' },
-  { name: 'Rizwan', class: 'IQRO', address: 'KBS', phone: '' },
+  { name: 'M.Gibran Algifari', class: 'IQRO', address: 'KBS', phone: '081234567808' },
+  { name: 'M.Khidir Ali Muslim', class: 'IQRO', address: 'KBS', phone: '' },
+  { name: 'Muh.Harith Arsya', class: 'Iqra 5', address: 'GTS', phone: '081234567801' },
+  { name: 'Nazril Azzaky', class: "Iqra' 1", address: 'GTS', phone: '' },
   { name: 'Sandi Walidaen', class: 'IQRO', address: 'KBS', phone: '081234567805' },
   { name: 'Sopian Hamdi', class: "Al-Qur'an", address: 'KBS', phone: '' },
-  { name: 'Raisa Aprilion Nuro', class: 'IQRO', address: 'NURSULA', phone: '' },
   { name: 'Syafana Adifa', class: "Iqra' 4", address: 'KBS', phone: '' },
-  { name: 'M Rizky Pratama', class: 'IQRO', address: 'KBS', phone: '' },
   { name: 'Toyyibburahman Arif', class: 'Iqra 5', address: 'KBS', phone: '' },
   { name: 'Yusni Fatimatun Zahra', class: "Iqra' 5", address: 'KBS', phone: '' },
-  { name: 'Zuhaera Fazila', class: "Iqra' 6", address: 'KBS', phone: '' },
-  { name: 'Aulian Basira Sujito', class: 'Iqro 3', address: 'GTS', phone: '' },
-  { name: 'M Sarip Arrosit', class: 'IQRO', address: 'KBS', phone: '081234567806' },
-  { name: 'Nagata Fariz Pratama', class: 'IQRO', address: 'GTS', phone: '' },
-  { name: 'Lalu Ahmad Hisan Abyad Ahis', class: 'IQRO’5', address: 'GTS', phone: '081234567807' },
-  { name: 'M.Gibran Algifari', class: 'IQRO', address: 'KBS', phone: '081234567808' },
   { name: 'Zhafran Shidqi Al Hasan', class: 'IQRO 2', address: 'GTS', phone: '081234567809' },
-  { name: 'Athaar Abrisam Rahman', class: 'IQRO', address: 'GTS', phone: '081234567810' },
-  { name: 'Alma Rohmah', class: 'IQRO', address: 'GTS', phone: '' },
-  { name: 'KAKAK RAISA', class: 'IQRO', address: 'GTS', phone: '' },
+  { name: 'Zuhaera Fazila', class: "Iqra' 6", address: 'KBS', phone: '' },
 ];
 
 const siblingGroups = [
@@ -163,12 +160,9 @@ export async function GET() {
       const student = addedStudents[i];
 
       // A. Seed SPP & Daftar Ulang payments
-      const unpaidNames = ['zakwan', 'alma rohmah', 'ali sandi', 'hafis', 'toyyibburahman arif'];
-      const isUnpaid = unpaidNames.some(unpaidName => 
-        student.name.toLowerCase().includes(unpaidName)
-      );
-      const paidStatus = isUnpaid ? 'Belum Bayar' : 'Lunas';
-      const paymentDate = paidStatus === 'Lunas' ? new Date(currentYear, currentMonthIndex, 5 + (i % 20)) : null;
+      // Note: By request, current month (June) SPP payments are marked as 'Belum Bayar' (unpaid) for all students.
+      const paidStatus = 'Belum Bayar';
+      const paymentDate = null;
       const amount = 50000;
 
       // Insert SPP payment record

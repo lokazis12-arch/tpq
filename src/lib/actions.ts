@@ -301,6 +301,63 @@ export async function recordPayment(formData: FormData) {
   }
 }
 
+export async function togglePaymentStatus(
+  studentId: number,
+  month: string,
+  year: number,
+  paymentType: string,
+  newStatus: 'Lunas' | 'Belum Bayar',
+  amount: number = 50000
+) {
+  if (!studentId || !month || !year || !paymentType) {
+    return { error: 'Data tidak lengkap.' };
+  }
+
+  try {
+    // Check if payment already exists
+    const existing = await sql`
+      SELECT id FROM spp_payments 
+      WHERE student_id = ${studentId} AND month = ${month} AND year = ${year} AND payment_type = ${paymentType}
+    `;
+
+    if (newStatus === 'Lunas') {
+      if (existing.rows.length > 0) {
+        await sql`
+          UPDATE spp_payments 
+          SET amount = ${amount}, status = 'Lunas', payment_date = NOW()
+          WHERE student_id = ${studentId} AND month = ${month} AND year = ${year} AND payment_type = ${paymentType}
+        `;
+      } else {
+        await sql`
+          INSERT INTO spp_payments (student_id, month, year, amount, payment_date, status, payment_type)
+          VALUES (${studentId}, ${month}, ${year}, ${amount}, NOW(), 'Lunas', ${paymentType})
+        `;
+      }
+    } else {
+      // Mark as 'Belum Bayar'
+      if (existing.rows.length > 0) {
+        await sql`
+          UPDATE spp_payments 
+          SET amount = ${amount}, status = 'Belum Bayar', payment_date = NULL
+          WHERE student_id = ${studentId} AND month = ${month} AND year = ${year} AND payment_type = ${paymentType}
+        `;
+      } else {
+        await sql`
+          INSERT INTO spp_payments (student_id, month, year, amount, payment_date, status, payment_type)
+          VALUES (${studentId}, ${month}, ${year}, ${amount}, NULL, 'Belum Bayar', ${paymentType})
+        `;
+      }
+    }
+
+    revalidatePath('/bayar');
+    revalidatePath('/');
+    return { success: true };
+  } catch (error: any) {
+    console.error('Error toggling payment status:', error);
+    return { error: error.message || 'Gagal mengubah status pembayaran.' };
+  }
+}
+
 export async function getRecentPayments(limit: number = 10) {
   try {
     const result = await sql`

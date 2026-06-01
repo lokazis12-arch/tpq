@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { recordPayment, getPaymentStatusReport } from '@/lib/actions';
+import { recordPayment, getPaymentStatusReport, togglePaymentStatus } from '@/lib/actions';
+import SearchableSelect from '@/components/SearchableSelect';
 
 function formatRupiah(amount: number) {
   return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(amount);
@@ -22,6 +23,7 @@ export default function BayarClient({ students, recentPayments }: { students: an
   const [reportData, setReportData] = useState<any[]>([]);
   const [loadingReport, setLoadingReport] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [actionLoading, setActionLoading] = useState<Record<number, boolean>>({});
 
   const fetchReport = async (type: string, month: string, year: number) => {
     setLoadingReport(true);
@@ -55,6 +57,41 @@ export default function BayarClient({ students, recentPayments }: { students: an
     setLoading(false);
   };
 
+  const handleToggleStatus = async (studentId: number, targetStatus: 'Lunas' | 'Belum Bayar') => {
+    if (targetStatus === 'Belum Bayar') {
+      const confirmCancel = window.confirm('Apakah Anda yakin ingin membatalkan status LUNAS untuk santri ini?');
+      if (!confirmCancel) return;
+    }
+    
+    setActionLoading(prev => ({ ...prev, [studentId]: true }));
+    setMessage(null);
+    
+    const amount = 50000;
+    
+    const result = await togglePaymentStatus(
+      studentId,
+      filterMonth,
+      filterYear,
+      filterType,
+      targetStatus,
+      amount
+    );
+    
+    if (result?.error) {
+      setMessage({ type: 'error', text: result.error });
+    } else {
+      setMessage({ 
+        type: 'success', 
+        text: `Status pembayaran berhasil diubah menjadi ${targetStatus === 'Lunas' ? 'Lunas' : 'Belum Bayar'}.` 
+      });
+      await fetchReport(filterType, filterMonth, filterYear);
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    }
+    setActionLoading(prev => ({ ...prev, [studentId]: false }));
+  };
+
   return (
     <div className="space-y-6">
       <div>
@@ -81,12 +118,12 @@ export default function BayarClient({ students, recentPayments }: { students: an
             <form action={handleSubmit} className="space-y-5">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Pilih Santri</label>
-                <select name="student_id" required className="w-full px-4 py-3 border border-gray-200 text-slate-900 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none bg-white">
-                  <option value="">-- Pilih Santri --</option>
-                  {students.map(s => (
-                    <option key={s.id} value={s.id}>{s.name} ({s.class})</option>
-                  ))}
-                </select>
+                <SearchableSelect 
+                  options={students} 
+                  name="student_id" 
+                  required 
+                  placeholder="-- Pilih/Cari Santri --"
+                />
               </div>
 
               <div>
@@ -261,12 +298,13 @@ export default function BayarClient({ students, recentPayments }: { students: an
                     <th className="px-6 py-3 font-semibold">Status</th>
                     <th className="px-6 py-3 font-semibold">Nominal</th>
                     <th className="px-6 py-3 font-semibold">Tanggal Pembayaran</th>
+                    <th className="px-6 py-3 font-semibold text-right">Aksi</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
                   {reportData.filter(r => r.studentName.toLowerCase().includes(searchQuery.toLowerCase())).length === 0 ? (
                     <tr>
-                      <td colSpan={6} className="px-6 py-8 text-center text-secondary text-xs">
+                      <td colSpan={7} className="px-6 py-8 text-center text-secondary text-xs">
                         Tidak ada data ditemukan.
                       </td>
                     </tr>
@@ -299,6 +337,35 @@ export default function BayarClient({ students, recentPayments }: { students: an
                               ? new Intl.DateTimeFormat('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(row.paymentDate)) 
                               : '-'}
                             {row.paymentMonth && row.paymentMonth !== filterMonth && filterType === 'SPP' && ` (di Bulan: ${row.paymentMonth})`}
+                          </td>
+                          <td className="px-6 py-3 text-right">
+                            {row.status === 'Lunas' ? (
+                              <button
+                                onClick={() => handleToggleStatus(row.studentId, 'Belum Bayar')}
+                                disabled={actionLoading[row.studentId]}
+                                className="bg-rose-50 hover:bg-rose-100 text-rose-600 px-3 py-1.5 rounded-xl text-xs font-semibold inline-flex items-center gap-1 transition-colors border border-rose-100 disabled:opacity-50"
+                              >
+                                {actionLoading[row.studentId] ? (
+                                  <span className="material-symbols-outlined text-sm animate-spin">sync</span>
+                                ) : (
+                                  <span className="material-symbols-outlined text-sm">cancel</span>
+                                )}
+                                Batal
+                              </button>
+                            ) : (
+                              <button
+                                onClick={() => handleToggleStatus(row.studentId, 'Lunas')}
+                                disabled={actionLoading[row.studentId]}
+                                className="bg-emerald-50 hover:bg-emerald-100 text-primary px-3 py-1.5 rounded-xl text-xs font-semibold inline-flex items-center gap-1 transition-colors border border-emerald-100 disabled:opacity-50"
+                              >
+                                {actionLoading[row.studentId] ? (
+                                  <span className="material-symbols-outlined text-sm animate-spin">sync</span>
+                                ) : (
+                                  <span className="material-symbols-outlined text-sm">check_circle</span>
+                                )}
+                                Bayar
+                              </button>
+                            )}
                           </td>
                         </tr>
                       ))

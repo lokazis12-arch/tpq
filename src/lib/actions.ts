@@ -452,10 +452,26 @@ export async function getProgressSholat(studentId?: number) {
 
 export async function saveProgressSholat(formData: FormData) {
   const studentId = parseInt(formData.get('student_id') as string);
-  const category = formData.get('category') as string;
+  let category = formData.get('category') as string;
   const itemName = formData.get('item_name') as string;
   const status = formData.get('status') as string;
   const notes = formData.get('notes') as string;
+
+  if (!category && itemName) {
+    const prepItems = ['Wudhu', 'Lafaz Sebelum Azan', 'Azan', 'Doa Setelah Azan', 'Doa Sebelum Azan', 'Iqomah'];
+    const movementItems = ['Niat', 'Iftitah', 'Fatihah', 'Ayat', 'Ruku', 'I\'tidal', 'Sujud', 'Duduk diantara dua sujud', 'Tahiyat', 'Salam', 'Takbiratul Ihram', 'Al-Fatihah & Ayat', 'Rukuk & I\'tidal', 'Sujud & Duduk', 'Tasyahud & Salam'];
+    const zikirItems = ['Zikir', 'Doa', 'Doa Setelah Sholat'];
+
+    if (prepItems.includes(itemName)) {
+      category = 'Azan & Persiapan';
+    } else if (movementItems.includes(itemName)) {
+      category = 'Gerakan & Bacaan';
+    } else if (zikirItems.includes(itemName)) {
+      category = 'Zikir & Doa';
+    } else {
+      category = 'Lainnya';
+    }
+  }
 
   if (!studentId || !category || !itemName || !status) return { error: 'Data tidak lengkap.' };
 

@@ -77,6 +77,35 @@ export default async function WaliDashboard() {
   // WhatsApp setup
   const ustadzWa = '6287847423809';
   const parentName = parent?.name || session.name;
+  const scheduleAlQuran = [
+    { day: 'Senin', subject: 'Al-Qur\'an', icon: 'auto_stories' },
+    { day: 'Selasa', subject: 'Fikih', icon: 'menu_book' },
+    { day: 'Rabu', subject: 'Al-Qur\'an', icon: 'auto_stories' },
+    { day: 'Kamis', subject: 'Tajwid', icon: 'menu_book' },
+    { day: 'Jum\'at', subject: 'Hafalan Surah', icon: 'interpreter_mode' },
+    { day: 'Sabtu', subject: 'Tajwid', icon: 'menu_book' },
+    { day: 'Minggu', subject: 'Al-Qur\'an', icon: 'auto_stories' },
+  ];
+
+  const scheduleIqro = [
+    { day: 'Senin', subject: 'Iqro', icon: 'auto_stories' },
+    { day: 'Selasa', subject: 'Fikih', icon: 'menu_book' },
+    { day: 'Rabu', subject: 'Iqro', icon: 'auto_stories' },
+    { day: 'Kamis', subject: 'Iqro', icon: 'auto_stories' },
+    { day: 'Jum\'at', subject: 'Hafalan Surah', icon: 'interpreter_mode' },
+    { day: 'Sabtu', subject: 'Iqro', icon: 'auto_stories' },
+    { day: 'Minggu', subject: 'Iqro', icon: 'auto_stories' },
+  ];
+
+  const isAlQuran = student.class && /qur/i.test(student.class);
+  const currentSchedule = isAlQuran ? scheduleAlQuran : scheduleIqro;
+
+  const daysOfWeek = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+  const todayDayName = daysOfWeek[new Date().getDay()];
+
+  const normalizeDay = (day: string) => day.toLowerCase().replace(/[^a-z]/g, '');
+  const todayNormalized = normalizeDay(todayDayName);
+
   const waMessage = `Assalamu'alaikum Ustaz, saya ${parentName} (orang tua dari ${student.name}) ingin mengonfirmasi terkait SPP / perkembangan belajar anak saya.`;
   const waLink = `https://wa.me/${ustadzWa}?text=${encodeURIComponent(waMessage)}`;
 
@@ -159,7 +188,7 @@ export default async function WaliDashboard() {
               src={parent.avatar_url} 
               alt="Avatar" 
               className="w-16 h-16 rounded-full border-2 border-white/40 shadow-inner object-cover" 
-            />
+              />
           ) : (
             <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center text-2xl font-bold border-2 border-white/40 shadow-inner">
               {student.name.substring(0, 2).toUpperCase()}
@@ -178,6 +207,49 @@ export default async function WaliDashboard() {
               </span>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Jadwal Pelajaran Card */}
+      <div className="bg-white rounded-2xl p-6 shadow-sm border border-emerald-50">
+        <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 mb-4">
+          <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
+            <span className="material-symbols-outlined text-primary">calendar_today</span>
+            Jadwal Pelajaran Kelas {isAlQuran ? 'Al-Qur\'an' : 'Iqro'}
+          </h3>
+          <span className="text-xs text-primary bg-primary-container px-3 py-1.5 rounded-xl font-semibold border border-primary/10 self-start sm:self-auto">
+            Hari ini: {todayDayName}
+          </span>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
+          {currentSchedule.map((item, idx) => {
+            const isToday = todayNormalized === normalizeDay(item.day);
+            return (
+              <div 
+                key={idx} 
+                className={`p-3 rounded-xl border text-center transition-all duration-300 relative ${
+                  isToday 
+                    ? 'bg-primary text-white border-primary shadow-md scale-105 z-10 font-medium' 
+                    : 'bg-slate-50 border-slate-100 text-slate-700 hover:bg-slate-100/70 hover:border-slate-200'
+                }`}
+              >
+                <p className={`text-[10px] font-bold uppercase tracking-wider ${isToday ? 'text-primary-container-low' : 'text-slate-400'}`}>
+                  {item.day}
+                </p>
+                <span className={`material-symbols-outlined text-2xl my-2 block ${isToday ? 'text-white' : 'text-primary'}`}>
+                  {item.icon}
+                </span>
+                <p className="text-xs font-bold truncate">
+                  {item.subject}
+                </p>
+                {isToday && (
+                  <span className="absolute -top-1.5 -right-1.5 bg-amber-500 text-white text-[8px] px-1.5 py-0.5 rounded-full font-black uppercase tracking-widest shadow-sm animate-pulse">
+                    Hari Ini
+                  </span>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
 

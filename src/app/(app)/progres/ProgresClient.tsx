@@ -366,24 +366,14 @@ export default function ProgresClient({ students, iqroProgress, sholatProgress, 
               />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
-                <select name="category" required className="w-full px-4 py-3 border border-gray-200 text-slate-900 rounded-xl focus:ring-2 focus:ring-primary outline-none bg-white">
-                  <option value="">-- Kategori --</option>
-                  {sholatCategories.map(c => <option key={c.name} value={c.name}>{c.name}</option>)}
-                </select>
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Materi Uji</label>
-                <select name="item_name" required className="w-full px-4 py-3 border border-gray-200 text-slate-900 rounded-xl focus:ring-2 focus:ring-primary outline-none bg-white">
-                  <option value="">-- Pilih Materi --</option>
-                  {sholatMaterials.map(m => (
-                    <option key={m} value={m}>{m}</option>
-                  ))}
-                </select>
-              </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Materi Uji</label>
+              <select name="item_name" required className="w-full px-4 py-3 border border-gray-200 text-slate-900 rounded-xl focus:ring-2 focus:ring-primary outline-none bg-white">
+                <option value="">-- Pilih Materi --</option>
+                {sholatMaterials.map(m => (
+                  <option key={m} value={m}>{m}</option>
+                ))}
+              </select>
             </div>
 
             <div>

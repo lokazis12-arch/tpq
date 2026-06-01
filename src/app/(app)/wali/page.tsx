@@ -78,9 +78,9 @@ export default async function WaliDashboard() {
   const ustadzWa = '6287847423809';
   const parentName = parent?.name || session.name;
   const scheduleAlQuran = [
-    { day: 'Senin', subject: 'Al-Qur\'an', icon: 'auto_stories' },
-    { day: 'Selasa', subject: 'Fikih', icon: 'menu_book' },
-    { day: 'Rabu', subject: 'Al-Qur\'an', icon: 'auto_stories' },
+    { day: 'Senin', subject: 'Fikih', icon: 'menu_book' },
+    { day: 'Selasa', subject: 'Al-Qur\'an', icon: 'auto_stories' },
+    { day: 'Rabu', subject: 'Tajwid', icon: 'menu_book' },
     { day: 'Kamis', subject: 'Tajwid', icon: 'menu_book' },
     { day: 'Jum\'at', subject: 'Hafalan Surah', icon: 'interpreter_mode' },
     { day: 'Sabtu', subject: 'Tajwid', icon: 'menu_book' },
@@ -88,8 +88,8 @@ export default async function WaliDashboard() {
   ];
 
   const scheduleIqro = [
-    { day: 'Senin', subject: 'Iqro', icon: 'auto_stories' },
-    { day: 'Selasa', subject: 'Fikih', icon: 'menu_book' },
+    { day: 'Senin', subject: 'Fikih', icon: 'menu_book' },
+    { day: 'Selasa', subject: 'Iqro', icon: 'auto_stories' },
     { day: 'Rabu', subject: 'Iqro', icon: 'auto_stories' },
     { day: 'Kamis', subject: 'Iqro', icon: 'auto_stories' },
     { day: 'Jum\'at', subject: 'Hafalan Surah', icon: 'interpreter_mode' },

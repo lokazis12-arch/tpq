@@ -406,10 +406,15 @@ export async function getProgressIqro(studentId?: number) {
 export async function saveProgressIqro(formData: FormData) {
   const studentId = parseInt(formData.get('student_id') as string);
   const level = formData.get('level') as string;
-  const pageSurah = formData.get('page_surah') as string;
+  let pageSurah = formData.get('page_surah') as string;
   const notes = formData.get('notes') as string;
+  const ayat = formData.get('ayat') as string;
 
   if (!studentId || !level || !pageSurah) return { error: 'Data tidak lengkap.' };
+
+  if (ayat && !level.includes("Iqra")) {
+    pageSurah = `${pageSurah}, Ayat ${ayat}`;
+  }
 
   try {
     await sql`

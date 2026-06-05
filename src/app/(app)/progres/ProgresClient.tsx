@@ -198,12 +198,24 @@ export default function ProgresClient({ students, iqroProgress, sholatProgress, 
                       ))
                     ) : (
                       surahList.map((surah, idx) => (
-                        <option key={surah} value={`Surah {idx+1}: ${surah}`}>Surah {idx+1}: {surah}</option>
+                        <option key={surah} value={`Surah ${idx+1}: ${surah}`}>Surah {idx+1}: {surah}</option>
                       ))
                     )}
                   </select>
                 </div>
               </div>
+
+              {!selectedLevel.includes("Iqra") && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Ayat</label>
+                  <input
+                    type="text"
+                    name="ayat"
+                    placeholder="Contoh: 1-5, 10, atau Full"
+                    className="w-full px-4 py-2 border border-gray-200 text-slate-900 rounded-xl focus:ring-2 focus:ring-primary outline-none bg-white"
+                  />
+                </div>
+              )}
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Catatan Tambahan (Opsional)</label>
